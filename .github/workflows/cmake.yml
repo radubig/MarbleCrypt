@@ -2,16 +2,16 @@ name: C++ CI
 
 on:
   push:
-    branches: ['*'] # NOTE: replace/update with appropriate branch name(s)
-    tags: ['*']
+    branches: [master] # NOTE: replace/update with appropriate branch name(s)
+    tags: '*'
   pull_request:
-    branches: ['*'] # NOTE: replace/update with appropriate branch name(s)
+    branches: [master] # NOTE: replace/update with appropriate branch name(s)
   workflow_dispatch:
-    inputs:
+    inputs: # NOTE: maybe remove
       build_type:
         description: Build type
         required: false
-        default: 'Debug'
+        default: 'Debug'  # NOTE : maybe change to Release
         type: choice
         options:
           - Debug
@@ -22,7 +22,7 @@ on:
 env:
   BUILD_TYPE: ${{ inputs.build_type || 'Debug' }}
   # NOTE: update executable name if it is changed in CMakeLists.txt
-  EXECUTABLE_NAME: "oop"
+  EXECUTABLE_NAME: "MarbleCrypt"
   INPUT_FILENAME: "tastatura.txt"
   BUILD_DIR: "build"
   EXT_DIR: "ext"
