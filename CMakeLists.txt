@@ -79,8 +79,10 @@ endfunction()
 
 ###############################################################################
 
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
-add_executable(${PROJECT_NAME} main.cpp)
+# Custom include commands
+file(GLOB_RECURSE Src "src/*")
+file(GLOB_RECURSE Include "include/*")
+add_executable(${PROJECT_NAME} ${Include} ${Src})
 
 ###############################################################################
 
