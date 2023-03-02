@@ -9,13 +9,14 @@
 
 #### Cerințe
 - [ ] definirea a minim 3-4 clase folosind compunere
-- [ ] constructori de inițializare
+- [x] constructori de inițializare
 - [ ] pentru o clasă: constructor de copiere, `operator=` de copiere, destructor
+  - [ ] is this good enough?
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
 - [ ] `operator<<` pentru toate clasele pentru afișare (std::ostream)
-- [ ] cât mai multe `const` (unde este cazul)
-- [ ] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese
+- [x] cât mai multe `const` (unde este cazul)
+- [x] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese
 - [ ] scenariu de utilizare a claselor definite:
   - crearea de obiecte și apelarea funcțiilor membru publice în main
   - vor fi adăugate în fișierul `tastatura.txt` exemple de date de intrare de la tastatură (dacă există)
@@ -25,7 +26,7 @@
 ## Tema 2
 
 #### Cerințe
-- [ ] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
+- [x] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
 - [ ] moșteniri
   - [ ] clasă cu atribut de tip pointer la o clasă de bază cu derivate
   - [ ] funcții virtuale (pure) apelate prin pointeri de bază din clasa de mai sus, constructori virtuali (clone)
@@ -38,8 +39,8 @@
   - [ ] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim 2 clase pentru erori specifice
   - [ ] utilizare cu sens: de exemplu, `throw` în constructor, `try`/`catch` în `main`
 - [ ] funcții și atribute `static`
-- [ ] STL
-- [ ] cât mai multe `const`
+- [x] STL
+- [x] cât mai multe `const`
 - [ ] la sfârșit: commit separat cu adăugarea unei noi derivate fără a modifica restul codului
 - [ ] tag de `git`: de exemplu `v0.2`
 

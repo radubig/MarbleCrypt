@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../include/Marble.h"
+#include "../include/CryptoCoin.h"
 
 int main()
 {

@@ -1,7 +1,7 @@
 #include "../include/Marble.h"
 #include <iostream>
 
-Marble::Marble(std::string name, double daily_yield) :
+Marble::Marble(std::string name, int64_t daily_yield) :
     m_name(std::move(name)),
     m_timepoint_gen(std::chrono::system_clock::now()),
     m_timepoint_last_yield(m_timepoint_gen),
@@ -38,13 +38,13 @@ std::ostream& operator<<(std::ostream& os, const Marble& marble)
 double Marble::GetYield()
 {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-    int64_t dur = std::chrono::duration_cast<std::chrono::minutes>(now - m_timepoint_last_yield).count();
-    std::cout << "The yield of " << m_name << " is now " << YieldPerMinute() * (double)dur << "\n";
+    int64_t dur = std::chrono::duration_cast<std::chrono::seconds>(now - m_timepoint_last_yield).count();
+    std::cout << "The yield of " << m_name << " is now " << (dur / 30) * YieldPer30s() << "\n";
     m_timepoint_last_yield = now;
     return 0;
 }
 
-constexpr double Marble::YieldPerMinute() const
+constexpr int64_t Marble::YieldPer30s() const
 {
-    return m_daily_yield / 1440.0;
+    return m_daily_yield / 2880;
 }
