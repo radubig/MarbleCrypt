@@ -1,12 +1,9 @@
 ## Todo list
 ### High Priority
-- [ ] Implement base Marble class
-  - Partially implemented
+- [x] Implement Marble class
 - [x] Implement Currency
-- [ ] Implement Generator
-  - Partially implemented
-- [ ] Implement Inventory
-  - Partially implemented
+- [x] Implement Generator
+- [x] Implement Inventory
 - [ ] Generate Marble list
   - [x] Load marble data
   - [ ] Texture assets

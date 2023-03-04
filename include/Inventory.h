@@ -16,6 +16,11 @@ public:
 
     void Clear();
     void ResetDefault();
+    long double GetBalance() const;
+    long double GetNewMarblePrice() const;
+    bool BuyMarble();
+    void ShowGeneratorData() const;
+    void CollectAll();
 
 private:
     CryptoCoin m_wallet;
