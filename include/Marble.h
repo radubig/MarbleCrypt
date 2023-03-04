@@ -17,13 +17,15 @@ public:
     ~Marble() = default;
     friend std::ostream& operator<< (std::ostream&, const Marble&);
 
-    double GetYield();
+    int64_t GetYield();
 
 private:
-    std::string m_name;
+    std::string m_name; // Auto-initialized to ""
+    std::string m_texture; // May refactor after adding graphics API
     TP m_timepoint_gen;
     TP m_timepoint_last_yield;
     int64_t m_daily_yield;
+    // Rarity may be added later as specialized classes
 
     constexpr int64_t YieldPer30s() const;
 };

@@ -18,6 +18,7 @@ Marble::Marble(const Marble& other) :
 Marble& Marble::operator=(const Marble& other)
 {
     m_name = other.m_name;
+    m_texture = other.m_texture;
     m_timepoint_gen = other.m_timepoint_gen;
     m_timepoint_last_yield = other.m_timepoint_last_yield;
     m_daily_yield = other.m_daily_yield;
@@ -35,13 +36,14 @@ std::ostream& operator<<(std::ostream& os, const Marble& marble)
     return os;
 }
 
-double Marble::GetYield()
+int64_t Marble::GetYield()
 {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     int64_t dur = std::chrono::duration_cast<std::chrono::seconds>(now - m_timepoint_last_yield).count();
-    std::cout << "The yield of " << m_name << " is now " << (dur / 30) * YieldPer30s() << "\n";
+    int64_t total_yield = (dur / 30) * YieldPer30s();
+    std::cout << "The yield of " << m_name << " is now " << total_yield << "\n";
     m_timepoint_last_yield = now;
-    return 0;
+    return total_yield;
 }
 
 constexpr int64_t Marble::YieldPer30s() const

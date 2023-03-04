@@ -1,11 +1,9 @@
 #include <iostream>
-#include "../include/Marble.h"
-#include "../include/CryptoCoin.h"
+#include "../include/Inventory.h"
 
 int main()
 {
-    Marble marble("Bilutza", 1440.0);
-    std::cout << marble << "\n";
-    marble.GetYield();
+    Generator gen;
+    std::cout << gen;
     return 0;
 }

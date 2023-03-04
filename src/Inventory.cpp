@@ -10,3 +10,15 @@ std::ostream& operator<<(std::ostream& os, const Inventory& inv)
     os << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
     return os;
 }
+
+void Inventory::Clear()
+{
+    m_wallet = CryptoCoin();
+    m_marbles.clear();
+}
+
+void Inventory::ResetDefault()
+{
+    m_wallet = CryptoCoin(CryptoCoin::s_initial_ammount);
+    m_marbles.clear();
+}

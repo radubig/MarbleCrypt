@@ -4,9 +4,13 @@
   - Partially implemented
 - [x] Implement Currency
 - [ ] Implement Generator
+  - Partially implemented
 - [ ] Implement Inventory
   - Partially implemented
 - [ ] Generate Marble list
+  - [x] Load marble data
+  - [ ] Texture assets
+  - [ ] Marble data
 - [ ] Save the state of the game
 
 <!-- Raritati posibile:

@@ -5,6 +5,7 @@
 #include <vector>
 #include "CryptoCoin.h"
 #include "Marble.h"
+#include "Generator.h"
 
 class Inventory
 {
@@ -13,10 +14,13 @@ public:
     ~Inventory() = default;
     friend std::ostream& operator<< (std::ostream& os, const Inventory& inv);
 
+    void Clear();
+    void ResetDefault();
+
 private:
     CryptoCoin m_wallet;
     std::vector<Marble> m_marbles;
-    // + un generator de bile
+    Generator m_generator;
 };
 
 #endif //MARBLECRYPT_INVENTORY_H

@@ -6,6 +6,8 @@
 class CryptoCoin
 {
 public:
+    static const long double s_initial_ammount;
+
     explicit CryptoCoin(long double balance = 0.0);
     CryptoCoin(const CryptoCoin& other);
     CryptoCoin& operator= (const CryptoCoin& other);
@@ -19,6 +21,5 @@ public:
 private:
     long double m_balance;
 };
-
 
 #endif //MARBLECRYPT_CRYPTOCOIN_H

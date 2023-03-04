@@ -1,5 +1,7 @@
 #include "../include/CryptoCoin.h"
 
+const long double CryptoCoin::s_initial_ammount = 90;
+
 CryptoCoin::CryptoCoin(long double balance)
     :m_balance(balance)
 {}
