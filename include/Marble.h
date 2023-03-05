@@ -14,7 +14,7 @@ public:
     Marble(std::string, int64_t);
     Marble(const Marble&);
     Marble& operator= (const Marble&);
-    ~Marble() = default;
+    ~Marble();
     friend std::ostream& operator<< (std::ostream&, const Marble&);
 
     int64_t GetYield();

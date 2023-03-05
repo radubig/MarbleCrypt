@@ -9,6 +9,8 @@
   - [ ] Texture assets
   - [ ] Marble data
 - [ ] Save the state of the game
+- [ ] Import SFML
+- [ ] Make game playable
 
 <!-- Raritati posibile:
 * normal 55%
@@ -24,7 +26,6 @@
 
 ### Low Priority
 - [ ] Date/Time format
-- [ ] Add graphics library
 
 ### Before final release
 - [ ] Cleanup CMakeLists.txt

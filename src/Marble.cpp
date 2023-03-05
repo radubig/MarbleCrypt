@@ -50,3 +50,8 @@ constexpr int64_t Marble::YieldPer30s() const
 {
     return m_daily_yield / 2880;
 }
+
+Marble::~Marble()
+{
+    std::cout << "Marble " << m_name << " got yeeted from memory!\n";
+}
