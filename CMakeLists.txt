@@ -59,23 +59,30 @@ endfunction()
 ###############################################################################
 
 # external dependencies with FetchContent
-#include(FetchContent)
-#
+include(FetchContent)
+
 # NOTE: Also update env vars used for caching in .github/workflows/cmake.yml
-#FetchContent_Declare(
-#        SomeLib
-#        GIT_REPOSITORY https://github.com/<SomeUser>/<SomeLib>.git
-#        GIT_TAG        <some_git_hash> # <which tag/branch @ <some_date>>
-#        GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
-#)
-#
-#FetchContent_MakeAvailable(SomeLib)
+FetchContent_Declare(
+        SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG        863fef024619da7f59b6404087b454337a172ac1 # 2.6.x as of 2022-08-30
+)
+
+FetchContent_MakeAvailable(SFML)
+
+set_custom_stdlib_and_sanitizers(sfml-system false)
+set_custom_stdlib_and_sanitizers(sfml-window false)
+set_custom_stdlib_and_sanitizers(sfml-graphics false)
 
 ###############################################################################
 
 # external dependencies with find_package
 
-# find_package(Threads REQUIRED)
+find_package(Threads REQUIRED)
+if(APPLE)
+elseif(UNIX)
+    find_package(X11)
+endif()
 
 ###############################################################################
 
@@ -115,15 +122,20 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 ###############################################################################
 
 # use SYSTEM so clang-tidy does not report warnings from these directories
-#target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
-#target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${<SomeLib>_SOURCE_DIR}/include)
-#target_link_directories(${PROJECT_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
-#target_link_libraries(${PROJECT_NAME} <SomeLib>)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
+target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
+target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system Threads::Threads)
+
+if(APPLE)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} X11)
+endif()
 
 ###############################################################################
 
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # update name in .github/workflows/cmake.yml:29 when changing "bin" name here
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(DIRECTORY data DESTINATION bin)
 # install(DIRECTORY some_dir1 some_dir2 DESTINATION bin)
 # install(FILES some_file1.txt some_file2.md DESTINATION bin)
