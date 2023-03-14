@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+#include <GameApp.h>
 #include <iostream>
 #include <Inventory.h>
 
@@ -32,34 +32,6 @@ static inline void class_test()
     inventory.Clear();
 }
 
-static inline void graphics_test()
-{
-    sf::RenderWindow window;
-    // NOTE: sync with env variable APP_WINDOW from .github/workflows/cmake.yml:30
-    window.create(sf::VideoMode({1280, 720}), "MarbleCrypt", sf::Style::Default);
-    window.setVerticalSyncEnabled(true);
-    window.setFramerateLimit(144);
-
-    while(window.isOpen())
-    {
-        sf::Event e{};
-        while(window.pollEvent(e))
-        {
-            switch(e.type)
-            {
-                case sf::Event::Closed:
-                    window.close();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        window.clear();
-        window.display();
-    }
-}
-
 int main()
 {
 #ifdef __linux__
@@ -67,6 +39,22 @@ int main()
 #endif
 
     class_test();
-    graphics_test();
+
+    try
+    {
+        GameApp app;
+        app.SetResolution(1280, 720);
+        app.SetFramerateLimit(144);
+        app.Init();
+        app.Run();
+    }
+    catch(const std::runtime_error& err)
+    {
+        std::cerr << "[Runtime Error Exception]: " << err.what() << "\n";
+    }
+    catch(...)
+    {
+        std::cerr << "An unknown exception has occured!\n";
+    }
     return 0;
 }
