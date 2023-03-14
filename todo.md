@@ -5,11 +5,11 @@
 - [x] Implement Generator
 - [x] Implement Inventory
 - [ ] Generate Marble list
-  - [x] Load marble data
+  - [x] Implement a data loader
   - [ ] Texture assets
-  - [ ] Marble data
+  - [ ] Import Marble data
 - [ ] Save the state of the game
-- [ ] Import SFML
+- [x] Import SFML
 - [ ] Make game playable
 
 <!-- Raritati posibile:

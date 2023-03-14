@@ -3,9 +3,9 @@
 
 #include <ostream>
 #include <vector>
-#include "CryptoCoin.h"
-#include "Marble.h"
-#include "Generator.h"
+#include <CryptoCoin.h>
+#include <Marble.h>
+#include <Generator.h>
 
 class Inventory
 {

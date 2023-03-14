@@ -1,4 +1,4 @@
-#include "../include/Marble.h"
+#include <Marble.h>
 #include <iostream>
 
 Marble::Marble(std::string name, int64_t daily_yield) :

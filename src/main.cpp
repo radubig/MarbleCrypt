@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "../include/Inventory.h"
+#include <Inventory.h>
 
 #ifdef __linux__
 #include <X11/Xlib.h>
