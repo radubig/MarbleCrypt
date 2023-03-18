@@ -2,6 +2,7 @@
 #define MARBLECRYPT_GAMEAPP_H
 
 #include <SFML/Graphics.hpp>
+#include <Inventory.h>
 #include <memory>
 #include <stdexcept>
 
@@ -27,6 +28,7 @@ private:
     unsigned int m_width = 1280;
     unsigned int m_height = 720;
     unsigned int m_framerate_limit = 144;
+    Inventory m_inv;
 };
 
 #endif //MARBLECRYPT_GAMEAPP_H

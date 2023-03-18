@@ -1,8 +1,9 @@
 #include <Marble.h>
 #include <iostream>
 
-Marble::Marble(std::string name, int64_t daily_yield) :
+Marble::Marble(std::string name, int64_t daily_yield, uint32_t textureID) :
     m_name(std::move(name)),
+    m_textureID(textureID),
     m_timepoint_gen(std::chrono::system_clock::now()),
     m_timepoint_last_yield(m_timepoint_gen),
     m_daily_yield(daily_yield)
@@ -10,6 +11,7 @@ Marble::Marble(std::string name, int64_t daily_yield) :
 
 Marble::Marble(const Marble& other) :
     m_name(other.m_name),
+    m_textureID(other.m_textureID),
     m_timepoint_gen(other.m_timepoint_gen),
     m_timepoint_last_yield(other.m_timepoint_last_yield),
     m_daily_yield(other.m_daily_yield)
@@ -18,7 +20,7 @@ Marble::Marble(const Marble& other) :
 Marble& Marble::operator=(const Marble& other)
 {
     m_name = other.m_name;
-    m_texture = other.m_texture;
+    m_textureID = other.m_textureID;
     m_timepoint_gen = other.m_timepoint_gen;
     m_timepoint_last_yield = other.m_timepoint_last_yield;
     m_daily_yield = other.m_daily_yield;
@@ -54,4 +56,9 @@ constexpr int64_t Marble::YieldPer30s() const
 Marble::~Marble()
 {
     std::cout << "Marble " << m_name << " got yeeted from memory!\n";
+}
+
+uint32_t Marble::GetTextureID() const
+{
+    return m_textureID;
 }

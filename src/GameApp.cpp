@@ -1,4 +1,5 @@
 #include <GameApp.h>
+#include <iostream>
 
 bool GameApp::s_instance = false;
 
@@ -36,6 +37,15 @@ void GameApp::Init()
 
 void GameApp::Run()
 {
+    // Code for initializations
+    m_inv.LoadTextures("data/textures.txt");
+    m_inv.LoadMarbleData("data/marbles.txt");
+    m_inv.SetDefault();
+
+    m_inv.BuyMarble();
+    sf::Sprite sp = m_inv.GenSprite();
+
+    // Main rendering loop
     while(m_window.isOpen())
     {
         sf::Event e{};
@@ -50,8 +60,11 @@ void GameApp::Run()
                     break;
             }
         }
-
         m_window.clear();
+
+        // Render code here
+        m_window.draw(sp);
+
         m_window.display();
     }
 }
