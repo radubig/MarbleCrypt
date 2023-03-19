@@ -29,9 +29,10 @@ public:
     void SetDefault();
     long double GetBalance() const;
     long double GetNewMarblePrice() const;
+    const std::vector<Marble>& GetMarbles() const; // TODO: refactor this
+    void Reserve(size_t size);
     bool BuyMarble();
     void CollectAll();
-    sf::Sprite GenSprite();
 
 private:
     std::vector<sf::Texture> m_textures;

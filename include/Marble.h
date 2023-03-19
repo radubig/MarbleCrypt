@@ -1,6 +1,7 @@
 #ifndef MARBLECRYPT_MARBLE_H
 #define MARBLECRYPT_MARBLE_H
 
+#include <SFML/Graphics.hpp>
 #include <cinttypes>
 #include <string>
 #include <chrono>
@@ -11,18 +12,20 @@ class Marble
     typedef std::chrono::time_point<std::chrono::system_clock> TP;
 
 public:
-    Marble(std::string, int64_t, uint32_t);
+    Marble(std::string, int64_t, sf::Texture*);
     Marble(const Marble&);
     Marble& operator= (const Marble&);
+    Marble(Marble&&) = default;
+    Marble& operator= (Marble&&) = default;
     ~Marble();
     friend std::ostream& operator<< (std::ostream&, const Marble&);
 
-    uint32_t GetTextureID() const;
+    sf::Texture* GetTexturePtr() const;
     int64_t GetYield();
 
 private:
     std::string m_name;
-    uint32_t m_textureID;
+    sf::Texture* m_texture;
     TP m_timepoint_gen;
     TP m_timepoint_last_yield;
     int64_t m_daily_yield;

@@ -39,7 +39,7 @@ int main()
     XInitThreads();
 #endif
 
-    class_test();
+    //class_test();
 
     try
     {

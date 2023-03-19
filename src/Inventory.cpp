@@ -106,12 +106,11 @@ bool Inventory::BuyMarble() // NOTE: this may need refactoring
         return false;
     auto index = m_generator();
 
-    Marble marble(
+    m_marbles.emplace_back(
         m_marble_data_list[index].name,
         m_marble_data_list[index].daily_yield,
-        m_marble_data_list[index].textureID
+        &m_textures[m_marble_data_list[index].textureID]
         );
-    m_marbles.push_back(marble);
     return true;
 }
 
@@ -124,16 +123,17 @@ void Inventory::CollectAll()
     }
 }
 
-sf::Sprite Inventory::GenSprite()
-{
-    // Test rendering of first marble in list
-    sf::Sprite sp;
-    auto id = m_marbles[0].GetTextureID();
-    sp.setTexture(m_textures[id]);
-    return sp;
-}
-
 Marble& Inventory::operator[](uint32_t index)
 {
     return m_marbles[index];
+}
+
+const std::vector<Marble>& Inventory::GetMarbles() const
+{
+    return m_marbles;
+}
+
+void Inventory::Reserve(size_t size)
+{
+    m_marbles.reserve(size);
 }

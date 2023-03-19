@@ -42,8 +42,10 @@ void GameApp::Run()
     m_inv.LoadMarbleData("data/marbles.txt");
     m_inv.SetDefault();
 
-    m_inv.BuyMarble();
-    sf::Sprite sp = m_inv.GenSprite();
+    //Testing to make sure i don't do stupid alocations
+    //m_inv.Reserve(10);
+    for(int i=1; i<=10; i++)
+        m_inv.BuyMarble();
 
     // Main rendering loop
     while(m_window.isOpen())
@@ -63,7 +65,19 @@ void GameApp::Run()
         m_window.clear();
 
         // Render code here
-        m_window.draw(sp);
+        float renderX = 0, renderY = 0;
+        for(const Marble& marble : m_inv.GetMarbles())
+        {
+            sf::RectangleShape sp;
+            sp.setTexture(marble.GetTexturePtr());
+            sp.setSize({200, 200});
+            sp.setPosition(renderX, renderY);
+            m_window.draw(sp);
+            if(renderX + 400 > float(this->m_width))
+                renderY += 200, renderX = 0;
+            else
+                renderX += 200;
+        }
 
         m_window.display();
     }
