@@ -6,7 +6,7 @@
 #include <X11/Xlib.h>
 #endif
 
-static inline void class_test()
+[[maybe_unused]] static inline void class_test()
 {
     Inventory inventory;
     inventory.LoadTextures("data/textures.txt");

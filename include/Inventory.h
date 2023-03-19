@@ -30,7 +30,7 @@ public:
     long double GetBalance() const;
     long double GetNewMarblePrice() const;
     const std::vector<Marble>& GetMarbles() const; // TODO: refactor this
-    void Reserve(size_t size);
+    [[maybe_unused]] void Reserve(size_t size);
     bool BuyMarble();
     void CollectAll();
 

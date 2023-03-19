@@ -133,7 +133,7 @@ const std::vector<Marble>& Inventory::GetMarbles() const
     return m_marbles;
 }
 
-void Inventory::Reserve(size_t size)
+[[maybe_unused]] void Inventory::Reserve(size_t size)
 {
     m_marbles.reserve(size);
 }
