@@ -50,7 +50,7 @@ void GameApp::Run()
     m_inv.SetDefault();
 
     //Testing to make sure i don't do stupid alocations
-    //m_inv.Reserve(10);
+    m_inv.Reserve(10);
     /*for(int i=1; i<=10; i++)
         m_inv.BuyMarble();*/
 
