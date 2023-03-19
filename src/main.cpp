@@ -12,7 +12,7 @@
     inventory.LoadTextures("data/textures.txt");
     inventory.LoadMarbleData("data/marbles.txt");
     inventory.SetDefault();
-    for(int i = 1; i <= 10; i++)
+    for(int i = 1; i <= 2; i++)
     {
         if(!inventory.BuyMarble())
             std::cout << "Not enough money to buy another marble!\n";
@@ -39,7 +39,7 @@ int main()
     XInitThreads();
 #endif
 
-    //class_test();
+    class_test();
 
     try
     {
