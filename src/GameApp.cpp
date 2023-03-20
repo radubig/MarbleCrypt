@@ -62,24 +62,27 @@ void GameApp::Run()
         sf::Event e{};
         while(m_window.pollEvent(e))
         {
-            switch(e.type)
+            if(e.type == sf::Event::Closed)
             {
-                case sf::Event::Closed:
-                    m_window.close();
-                    break;
-
-                case sf::Event::MouseButtonPressed:
-                    if(e.mouseButton.button == sf::Mouse::Left &&
-                        shop.getGlobalBounds().contains(float(pos.x), float(pos.y)))
-                    {
-                        if(!m_inv.BuyMarble())
-                            std::cout << "Not enough funds!" << std::endl;
-                        else
-                            std::cout << "Balance remaining: " << m_inv.GetBalance() << std::endl;
-                    }
-                    break;
-
-                default: break;
+                m_window.close();
+            }
+            else if(e.type == sf::Event::Resized)
+            {
+                sf::FloatRect visibleArea(0, 0, float(e.size.width), float(e.size.height));
+                m_window.setView(sf::View(visibleArea));
+                m_width = e.size.width;
+                m_height = e.size.height;
+            }
+            else if(e.type == sf::Event::MouseButtonPressed)
+            {
+                if(e.mouseButton.button == sf::Mouse::Left &&
+                    shop.getGlobalBounds().contains(float(pos.x), float(pos.y)))
+                {
+                    if(!m_inv.BuyMarble())
+                        std::cout << "Not enough funds!" << std::endl;
+                    else
+                        std::cout << "Balance remaining: " << m_inv.GetBalance() << std::endl;
+                }
             }
         }
         m_window.clear(sf::Color::Cyan);
