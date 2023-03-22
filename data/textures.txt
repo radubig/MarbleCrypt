@@ -1,1 +1,4 @@
-data/marble.png
+data/bila_red.png
+data/bila_blue.png
+data/bila_green.png
+data/bila_yellow.png
