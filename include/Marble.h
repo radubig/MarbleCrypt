@@ -21,7 +21,9 @@ public:
     friend std::ostream& operator<< (std::ostream&, const Marble&);
 
     sf::Texture* GetTexturePtr() const;
-    int64_t GetYield();
+    int64_t GetYield() const;
+    void CollectYield();
+    const std::string& GetName() const;
 
 private:
     std::string m_name;
@@ -31,7 +33,7 @@ private:
     int64_t m_daily_yield;
     // Rarity may be added later as specialized classes
 
-    constexpr int64_t YieldPer30s() const;
+    constexpr double YieldPerSec() const;
 };
 
 #endif //MARBLECRYPT_MARBLE_H

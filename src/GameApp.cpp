@@ -38,15 +38,23 @@ void GameApp::Init()
 void GameApp::Run()
 {
     // A few constants that will be moved into a proper class later
-    static const float ENTITY_SIZE = 200.0f;
-    static const float ENTITY_OFFSET = 20.0f;
+    static const float ENTITY_IMG_SZ = 150.0f;
+    static const float ENTITY_HORIZONTAL_OFFSET = 20.0f;
+    static const float ENTITY_VERTICAL_OFFSET = 60.0f;
+
     // Code for initializations
+    // Load font (Mandatory)
+    sf::Font font;
+    if(!font.loadFromFile("data/OpenSans-Regular.ttf"))
+        throw std::runtime_error("Font could not be loaded!");
+
+    // Load Shop Texture (Mandatory)
     sf::Texture shop_tx;
     if(!shop_tx.loadFromFile("data/shop.png"))
         throw std::runtime_error("Shop image could not be loaded!");
     sf::RectangleShape shop;
     shop.setTexture(&shop_tx);
-    shop.setSize({ENTITY_SIZE, ENTITY_SIZE});
+    shop.setSize({ENTITY_IMG_SZ, ENTITY_IMG_SZ});
 
     m_inv.LoadTextures("data/textures.txt");
     m_inv.LoadMarbleData("data/marbles.txt");
@@ -57,31 +65,44 @@ void GameApp::Run()
     /*for(int i=1; i<=10; i++)
         m_inv.BuyMarble();*/
 
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+
     // Main rendering loop
     while(m_window.isOpen())
     {
         // Render code here
-        m_window.clear(sf::Color::Cyan);
+        m_window.clear(sf::Color(80, 80, 80));
 
-        float renderX = ENTITY_OFFSET, renderY = ENTITY_OFFSET;
+        float renderX = ENTITY_HORIZONTAL_OFFSET, renderY = ENTITY_HORIZONTAL_OFFSET;
+        // Render shop
         shop.setPosition(renderX, renderY);
         m_window.draw(shop);
-        if(renderX + 2 * (ENTITY_SIZE + ENTITY_OFFSET) > float(this->m_width))
-            renderY += ENTITY_SIZE + ENTITY_OFFSET, renderX = ENTITY_OFFSET;
+        text.setString(std::to_string(int(m_inv.GetBalance())) + " | " + std::to_string(int(m_inv.GetNewMarblePrice())));
+        text.setPosition(renderX, renderY + ENTITY_IMG_SZ);
+        m_window.draw(text);
+        if(renderX + 2 * (ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET) > float(this->m_width))
+            renderY += ENTITY_IMG_SZ + ENTITY_VERTICAL_OFFSET, renderX = ENTITY_HORIZONTAL_OFFSET;
         else
-            renderX += ENTITY_SIZE + ENTITY_OFFSET;
+            renderX += ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET;
 
+        // Render Marbles
         for(const Marble& marble : m_inv.GetMarbles())
         {
             sf::RectangleShape sp;
             sp.setTexture(marble.GetTexturePtr());
-            sp.setSize({ENTITY_SIZE, ENTITY_SIZE});
+            sp.setSize({ENTITY_IMG_SZ, ENTITY_IMG_SZ});
             sp.setPosition(renderX, renderY);
             m_window.draw(sp);
-            if(renderX + 2 * (ENTITY_SIZE + ENTITY_OFFSET) > float(this->m_width))
-                renderY += ENTITY_SIZE + ENTITY_OFFSET, renderX = ENTITY_OFFSET;
+            text.setString(std::to_string(marble.GetYield()));
+            text.setPosition(renderX, renderY + ENTITY_IMG_SZ);
+            m_window.draw(text);
+            if(renderX + 2 * (ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET) > float(this->m_width))
+                renderY += ENTITY_IMG_SZ + ENTITY_VERTICAL_OFFSET, renderX = ENTITY_HORIZONTAL_OFFSET;
             else
-                renderX += ENTITY_SIZE + ENTITY_OFFSET;
+                renderX += ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET;
         }
 
         m_window.display();
@@ -123,9 +144,9 @@ void GameApp::Run()
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {
-                std::cout << "Mouse scroll\n";
+                // TODO: Add scrollbar
                 auto view = m_window.getView();
-                view.move(0, float(e.mouseWheelScroll.delta));
+                view.move(0, -e.mouseWheelScroll.delta * 80);
                 m_window.setView(view);
             }
         }

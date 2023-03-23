@@ -1,5 +1,6 @@
 #include <Marble.h>
 #include <iostream>
+#include <cmath>
 
 Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture = nullptr) :
     m_name(std::move(name)),
@@ -41,19 +42,18 @@ std::ostream& operator<<(std::ostream& os, const Marble& marble)
     return os;
 }
 
-int64_t Marble::GetYield()
+int64_t Marble::GetYield() const
 {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     int64_t dur = std::chrono::duration_cast<std::chrono::seconds>(now - m_timepoint_last_yield).count();
-    int64_t total_yield = (dur / 30) * YieldPer30s();
-    std::cout << "The yield of " << m_name << " is now " << total_yield << "\n";
-    m_timepoint_last_yield = now;
-    return total_yield;
+    double total_yield = double(dur) * YieldPerSec();
+    //std::cout << "The yield of " << m_name << " is now " << total_yield << "\n";
+    return int64_t(total_yield);
 }
 
-constexpr int64_t Marble::YieldPer30s() const
+constexpr double Marble::YieldPerSec() const
 {
-    return m_daily_yield / 2880;
+    return double(m_daily_yield) / (24 * 60 * 60);
 }
 
 Marble::~Marble()
@@ -65,4 +65,15 @@ Marble::~Marble()
 sf::Texture* Marble::GetTexturePtr() const
 {
     return m_texture;
+}
+
+const std::string& Marble::GetName() const
+{
+    return m_name;
+}
+
+void Marble::CollectYield()
+{
+    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+    m_timepoint_last_yield = now;
 }
