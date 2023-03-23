@@ -29,6 +29,7 @@ std::ostream& operator<<(std::ostream& os, const Inventory& inv)
 
 void Inventory::LoadTextures(const std::string& filePath)
 {
+    // TODO: Assign Texture ID properly in case of error at loading file
     std::fstream fin(filePath);
     if(!fin.is_open())
     {
@@ -51,6 +52,7 @@ void Inventory::LoadTextures(const std::string& filePath)
 
 void Inventory::LoadMarbleData(const std::string& filePath)
 {
+    // TODO: Assign Texture ID properly in case of error at loading file
     std::fstream fin(filePath);
     if(!fin.is_open())
     {
@@ -136,4 +138,9 @@ const std::vector<Marble>& Inventory::GetMarbles() const
 [[maybe_unused]] void Inventory::Reserve(size_t size)
 {
     m_marbles.reserve(size);
+}
+
+void Inventory::AddCoins(long double ammount) noexcept
+{
+    m_wallet.Add(ammount);
 }

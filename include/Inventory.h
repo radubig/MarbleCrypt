@@ -33,6 +33,7 @@ public:
     [[maybe_unused]] void Reserve(size_t size);
     bool BuyMarble();
     void CollectAll();
+    void AddCoins(long double ammount) noexcept;
 
 private:
     std::vector<sf::Texture> m_textures;
