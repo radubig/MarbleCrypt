@@ -25,7 +25,6 @@ public:
     Marble& operator[](uint32_t index);
     void LoadTextures(const std::string& filePath);
     void LoadMarbleData(const std::string& filePath);
-    void Clear();
     void SetDefault();
     long double GetBalance() const;
     long double GetNewMarblePrice() const;

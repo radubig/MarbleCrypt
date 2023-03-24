@@ -78,13 +78,6 @@ void Inventory::LoadMarbleData(const std::string& filePath)
     m_generator.SetRange(0, m_marble_data_list.size()-1);
 }
 
-void Inventory::Clear()
-{
-    m_wallet = CryptoCoin();
-    m_marbles.clear();
-    m_generator.ResetPrice();
-}
-
 void Inventory::SetDefault()
 {
     m_wallet = CryptoCoin(CryptoCoin::s_initial_ammount);
