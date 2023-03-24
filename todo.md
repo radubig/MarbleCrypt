@@ -4,13 +4,18 @@
 - [x] Implement Currency
 - [x] Implement Generator
 - [x] Implement Inventory
-- [ ] Generate Marble list
+- [x] Generate Marble list
   - [x] Implement a data loader
-  - [ ] Texture assets
-  - [ ] Import Marble data
+  - [x] Texture assets
+  - [x] Import Marble data
 - [ ] Save the state of the game
 - [x] Import SFML
-- [ ] Make game playable
+- [x] Make game playable
+- [ ] Get all textures
+- [ ] Give credit after all textures have been given
+- [ ] Add rarity
+- [ ] Add fusioning
+- [ ] Add burning
 
 <!-- Raritati posibile:
 * normal 55%
@@ -28,5 +33,6 @@
 - [ ] Date/Time format
 
 ### Before final release
+- [ ] Delete TODOs
 - [ ] Cleanup CMakeLists.txt
 - [ ] Update README.md

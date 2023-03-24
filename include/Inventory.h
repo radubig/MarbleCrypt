@@ -29,8 +29,7 @@ public:
     void SetDefault();
     long double GetBalance() const;
     long double GetNewMarblePrice() const;
-    const std::vector<Marble>& GetMarbles() const; // TODO: refactor this
-    [[maybe_unused]] void Reserve(size_t size);
+    std::vector<Marble>& GetMarbles(); // TODO: refactor this
     bool BuyMarble();
     void CollectAll();
     void AddCoins(long double ammount) noexcept;

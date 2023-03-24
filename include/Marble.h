@@ -22,6 +22,7 @@ public:
 
     sf::Texture* GetTexturePtr() const;
     int64_t GetYield() const;
+    int64_t GetDailyYield() const;
     void CollectYield();
     const std::string& GetName() const;
 

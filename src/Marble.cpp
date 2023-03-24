@@ -77,3 +77,8 @@ void Marble::CollectYield()
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     m_timepoint_last_yield = now;
 }
+
+int64_t Marble::GetDailyYield() const
+{
+    return m_daily_yield;
+}

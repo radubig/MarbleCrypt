@@ -122,6 +122,7 @@ void Inventory::CollectAll()
     {
         long double ammount = marble.GetYield();
         m_wallet.Add(ammount);
+        marble.CollectYield();
     }
 }
 
@@ -130,14 +131,9 @@ Marble& Inventory::operator[](uint32_t index)
     return m_marbles[index];
 }
 
-const std::vector<Marble>& Inventory::GetMarbles() const
+std::vector<Marble>& Inventory::GetMarbles()
 {
     return m_marbles;
-}
-
-[[maybe_unused]] void Inventory::Reserve(size_t size)
-{
-    m_marbles.reserve(size);
 }
 
 void Inventory::AddCoins(long double ammount) noexcept

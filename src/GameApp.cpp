@@ -1,4 +1,5 @@
 #include <GameApp.h>
+#include <DrawableEntity.h>
 #include <iostream>
 
 bool GameApp::s_instance = false;
@@ -37,11 +38,6 @@ void GameApp::Init()
 
 void GameApp::Run()
 {
-    // A few constants that will be moved into a proper class later
-    static const float ENTITY_IMG_SZ = 150.0f;
-    static const float ENTITY_HORIZONTAL_OFFSET = 20.0f;
-    static const float ENTITY_VERTICAL_OFFSET = 60.0f;
-
     // Code for initializations
     // Load font (Mandatory)
     sf::Font font;
@@ -52,23 +48,10 @@ void GameApp::Run()
     sf::Texture shop_tx;
     if(!shop_tx.loadFromFile("data/shop.png"))
         throw std::runtime_error("Shop image could not be loaded!");
-    sf::RectangleShape shop;
-    shop.setTexture(&shop_tx);
-    shop.setSize({ENTITY_IMG_SZ, ENTITY_IMG_SZ});
 
     m_inv.LoadTextures("data/textures.txt");
     m_inv.LoadMarbleData("data/marbles.txt");
     m_inv.SetDefault();
-
-    //Testing to make sure i don't do stupid alocations
-    m_inv.Reserve(10);
-    /*for(int i=1; i<=10; i++)
-        m_inv.BuyMarble();*/
-
-    sf::Text text;
-    text.setFont(font);
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
 
     // Main rendering loop
     while(m_window.isOpen())
@@ -76,6 +59,7 @@ void GameApp::Run()
         // Render code here
         m_window.clear(sf::Color(80, 80, 80));
 
+        /* Original Render code
         float renderX = ENTITY_HORIZONTAL_OFFSET, renderY = ENTITY_HORIZONTAL_OFFSET;
         // Render shop
         shop.setPosition(renderX, renderY);
@@ -96,7 +80,7 @@ void GameApp::Run()
             sp.setSize({ENTITY_IMG_SZ, ENTITY_IMG_SZ});
             sp.setPosition(renderX, renderY);
             m_window.draw(sp);
-            text.setString(std::to_string(marble.GetYield()));
+            text.setString("Yield: " + std::to_string(marble.GetYield()));
             text.setPosition(renderX, renderY + ENTITY_IMG_SZ);
             m_window.draw(text);
             if(renderX + 2 * (ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET) > float(this->m_width))
@@ -104,11 +88,27 @@ void GameApp::Run()
             else
                 renderX += ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET;
         }
+         */
+
+        /* MarbleEntity Render Test */
+        float renderX = 0, renderY = DrawableEntity::s_entity_offsetY;
+        ShopEntity shopEntity(&shop_tx, font, m_inv);
+
+        std::vector<MarbleEntity> marbles;
+        for(Marble& marble : m_inv.GetMarbles())
+            marbles.emplace_back(marble, font);
+
+        shopEntity.Draw(m_window, renderX, renderY);
+        for(auto& item : marbles)
+            item.Draw(m_window, renderX, renderY);
 
         m_window.display();
 
         // Poll events
-        sf::Vector2i pos = sf::Mouse::getPosition(m_window);
+        auto view = m_window.getView();
+        sf::Vector2f pos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window));
+        sf::Vector2f scrollOffset = view.getCenter() - (view.getSize() / 2.0f);
+        pos += scrollOffset;
         sf::Event e{};
         while(m_window.pollEvent(e))
         {
@@ -125,6 +125,7 @@ void GameApp::Run()
             }
             else if(e.type == sf::Event::MouseButtonPressed)
             {
+                /* Old shop button
                 if(e.mouseButton.button == sf::Mouse::Left &&
                    shop.getGlobalBounds().contains(float(pos.x), float(pos.y)))
                 {
@@ -133,19 +134,41 @@ void GameApp::Run()
                     else
                         std::cout << "Balance remaining: " << m_inv.GetBalance() << std::endl;
                 }
+                */
+
+                // Handle events based on Drawable Entities
+                if(e.mouseButton.button == sf::Mouse::Left)
+                {
+                    if(shopEntity.isHovered(pos.x, pos.y))
+                    {
+                        m_inv.BuyMarble();
+                    }
+                    else for(size_t i = 0; i < marbles.size(); i++)
+                        if(marbles[i].isHovered(pos.x, pos.y))
+                        {
+                            m_inv.AddCoins(m_inv[i].GetYield());
+                            m_inv[i].CollectYield();
+                        }
+                }
             }
             else if(e.type == sf::Event::KeyPressed)
             {
                 if(e.key.code == sf::Keyboard::Key::A)
                 {
                     m_inv.AddCoins(100);
-                    std::cout << "Balance remaining: " << m_inv.GetBalance() << std::endl;
+                }
+                else if(e.key.code == sf::Keyboard::Key::B)
+                {
+                    m_inv.BuyMarble();
+                }
+                else if(e.key.code == sf::Keyboard::Key::C)
+                {
+                    m_inv.CollectAll();
                 }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {
                 // TODO: Add scrollbar
-                auto view = m_window.getView();
                 view.move(0, -e.mouseWheelScroll.delta * 80);
                 m_window.setView(view);
             }
