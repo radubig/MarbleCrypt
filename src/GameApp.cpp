@@ -1,5 +1,5 @@
-#include <GameApp.h>
-#include <DrawableEntity.h>
+#include "GameApp.h"
+#include "DrawableEntity.h"
 #include <iostream>
 
 bool GameApp::s_instance = false;
@@ -59,38 +59,6 @@ void GameApp::Run()
         // Render code here
         m_window.clear(sf::Color(80, 80, 80));
 
-        /* Original Render code
-        float renderX = ENTITY_HORIZONTAL_OFFSET, renderY = ENTITY_HORIZONTAL_OFFSET;
-        // Render shop
-        shop.setPosition(renderX, renderY);
-        m_window.draw(shop);
-        text.setString(std::to_string(int(m_inv.GetBalance())) + " | " + std::to_string(int(m_inv.GetNewMarblePrice())));
-        text.setPosition(renderX, renderY + ENTITY_IMG_SZ);
-        m_window.draw(text);
-        if(renderX + 2 * (ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET) > float(this->m_width))
-            renderY += ENTITY_IMG_SZ + ENTITY_VERTICAL_OFFSET, renderX = ENTITY_HORIZONTAL_OFFSET;
-        else
-            renderX += ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET;
-
-        // Render Marbles
-        for(const Marble& marble : m_inv.GetMarbles())
-        {
-            sf::RectangleShape sp;
-            sp.setTexture(marble.GetTexturePtr());
-            sp.setSize({ENTITY_IMG_SZ, ENTITY_IMG_SZ});
-            sp.setPosition(renderX, renderY);
-            m_window.draw(sp);
-            text.setString("Yield: " + std::to_string(marble.GetYield()));
-            text.setPosition(renderX, renderY + ENTITY_IMG_SZ);
-            m_window.draw(text);
-            if(renderX + 2 * (ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET) > float(this->m_width))
-                renderY += ENTITY_IMG_SZ + ENTITY_VERTICAL_OFFSET, renderX = ENTITY_HORIZONTAL_OFFSET;
-            else
-                renderX += ENTITY_IMG_SZ + ENTITY_HORIZONTAL_OFFSET;
-        }
-         */
-
-        /* MarbleEntity Render Test */
         float renderX = 0, renderY = DrawableEntity::s_entity_offsetY;
         ShopEntity shopEntity(&shop_tx, font, m_inv);
 
@@ -125,23 +93,13 @@ void GameApp::Run()
             }
             else if(e.type == sf::Event::MouseButtonPressed)
             {
-                /* Old shop button
-                if(e.mouseButton.button == sf::Mouse::Left &&
-                   shop.getGlobalBounds().contains(float(pos.x), float(pos.y)))
-                {
-                    if(!m_inv.BuyMarble())
-                        std::cout << "Not enough funds!" << std::endl;
-                    else
-                        std::cout << "Balance remaining: " << m_inv.GetBalance() << std::endl;
-                }
-                */
-
                 // Handle events based on Drawable Entities
                 if(e.mouseButton.button == sf::Mouse::Left)
                 {
                     if(shopEntity.isHovered(pos.x, pos.y))
                     {
-                        m_inv.BuyMarble();
+                        if(!m_inv.BuyMarble())
+                            std::cout << "Not enough funds!" << std::endl;
                     }
                     else for(size_t i = 0; i < marbles.size(); i++)
                         if(marbles[i].isHovered(pos.x, pos.y))

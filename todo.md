@@ -1,8 +1,8 @@
 ## Todo list
 
 ### Feedback:
-- [ ] Change `#include <file>` to `#include "file"` for user-created headers (required for MSVC)
-- [ ] Check exceptions
+- [x] Change `#include <file>` to `#include "file"` for user-created headers (required for MSVC)
+- [x] Check exceptions
 
 ### High Priority
 - [x] Implement Marble class

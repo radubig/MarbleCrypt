@@ -1,4 +1,4 @@
-#include <CryptoCoin.h>
+#include "CryptoCoin.h"
 
 const long double CryptoCoin::s_initial_ammount = 90;
 

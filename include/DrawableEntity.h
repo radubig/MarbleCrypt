@@ -2,9 +2,9 @@
 #define MARBLECRYPT_DRAWABLEENTITY_H
 
 #include <SFML/Graphics.hpp>
-#include <Inventory.h>
+#include "Inventory.h"
 
-class DrawableEntity : protected sf::RectangleShape// NOTE: it may not be required to inherit RectangleShape
+class DrawableEntity : protected sf::RectangleShape
 {
 public:
     // TODO: Generate getters and setters
@@ -17,7 +17,8 @@ public:
 
     virtual void Draw(sf::RenderWindow& window, float& X, float& Y) = 0;
     virtual bool isHovered(float x, float y) const;
-
+    // TODO: Make a function that automaticly updates render coords
+    //  * Maybe redefine Draw to be non-virtual and call another custom, protected virtual Draw function?
 };
 
 class MarbleEntity : public DrawableEntity

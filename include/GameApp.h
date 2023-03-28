@@ -2,11 +2,11 @@
 #define MARBLECRYPT_GAMEAPP_H
 
 #include <SFML/Graphics.hpp>
-#include <Inventory.h>
+#include "Inventory.h"
 #include <memory>
 #include <stdexcept>
 
-// NOTE: yes, this class is a singleton, will refactor later
+// NOTE: yes, this class *should be* a singleton, will refactor later
 class GameApp
 {
 public:
