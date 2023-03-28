@@ -59,7 +59,7 @@ void GameApp::Run()
         // Render code here
         m_window.clear(sf::Color(80, 80, 80));
 
-        float renderX = 0, renderY = DrawableEntity::s_entity_offsetY;
+        float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
         ShopEntity shopEntity(&shop_tx, font, m_inv);
 
         std::vector<MarbleEntity> marbles;

@@ -7,9 +7,38 @@ float DrawableEntity::s_entity_offsetX = 20.0f;
 float DrawableEntity::s_entity_offsetY = 20.0f;
 unsigned int DrawableEntity::s_character_size = 20;
 
+float DrawableEntity::GetOffsetY()
+{
+    return s_entity_offsetY;
+}
+
 bool DrawableEntity::isHovered(float x, float y) const
 {
     return getGlobalBounds().contains(x, y);
+}
+
+void DrawableEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
+{
+    // Add X offset to create some space
+    X += s_entity_offsetX;
+
+    // Render canvas
+    this->setPosition(X, Y);
+    window.draw(*this);
+
+    // Custom draw behaviour
+    DrawObject(window, X, Y);
+
+    // Update Bounds
+    UpdateBounds(window, X, Y);
+}
+
+void DrawableEntity::UpdateBounds(sf::RenderWindow& window, float& X, float& Y)
+{
+    const float w_width = static_cast<float>(window.getSize().x);
+    X += s_entity_width;
+    if(X + s_entity_width + s_entity_offsetX > w_width)
+        Y += s_entity_height + s_entity_offsetY, X = 0;
 }
 
 MarbleEntity::MarbleEntity(Marble& marble, const sf::Font& font)
@@ -35,18 +64,9 @@ MarbleEntity::MarbleEntity(Marble& marble, const sf::Font& font)
     m_name.setString(m_marble.GetName());
 }
 
-void MarbleEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
+void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
 {
-    const float w_width = static_cast<float>(window.getSize().x);
     float x, y;
-
-    // Add X offset to create some space
-    X += s_entity_offsetX;
-
-    // Render canvas
-    this->setPosition(X, Y);
-    window.draw(*this);
-
     // Render image
     x = (s_entity_width - s_entity_image_size) / 2.0f;
     y = 10.0f; // Hardcoded for now
@@ -64,11 +84,6 @@ void MarbleEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
     y += 35.0f;
     m_daily_yield.setPosition(X + x, Y + y);
     window.draw(m_daily_yield);
-
-    // Update X and Y at the end
-    X += s_entity_width;
-    if(X + s_entity_width + s_entity_offsetX > w_width)
-        Y += s_entity_height + s_entity_offsetY, X = 0;
 }
 
 ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, const Inventory& inv)
@@ -92,17 +107,9 @@ ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, const Invento
     m_balance.setString("Balance: " + std::to_string(uint64_t(inv.GetBalance())));
 }
 
-void ShopEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
+void ShopEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
 {
-    const float w_width = static_cast<float>(window.getSize().x);
     float x, y;
-
-    // Add X offset to create some space
-    X += s_entity_offsetX;
-
-    // Render canvas
-    this->setPosition(X, Y);
-    window.draw(*this);
 
     // Render image
     x = (s_entity_width - s_entity_image_size) / 2.0f;
@@ -118,9 +125,4 @@ void ShopEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
     y += 35.0f;
     m_balance.setPosition(X + x, Y + y);
     window.draw(m_balance);
-
-    // Update X and Y at the end
-    X += s_entity_width;
-    if(X + s_entity_width + s_entity_offsetX > w_width)
-        Y += s_entity_height + s_entity_offsetY, X = 0;
 }

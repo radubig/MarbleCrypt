@@ -1,9 +1,5 @@
 ## Todo list
 
-### Feedback:
-- [x] Change `#include <file>` to `#include "file"` for user-created headers (required for MSVC)
-- [x] Check exceptions
-
 ### High Priority
 - [x] Implement Marble class
 - [x] Implement Currency
