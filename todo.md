@@ -1,4 +1,9 @@
 ## Todo list
+
+### Feedback:
+- [ ] Change `#include <file>` to `#include "file"` for user-created headers (required for MSVC)
+- [ ] Check exceptions
+
 ### High Priority
 - [x] Implement Marble class
 - [x] Implement Currency
@@ -34,5 +39,6 @@
 
 ### Before final release
 - [ ] Delete TODOs
-- [ ] Cleanup CMakeLists.txt
-- [ ] Update README.md
+- [ ] Cleanup `CMakeLists.txt`
+  - [ ] Delete the `GLOB_RECURSE` for `include` files
+- [ ] Update `README.md`
