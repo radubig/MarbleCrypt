@@ -6,7 +6,8 @@
 class ResourceLoadException: public std::runtime_error
 {
 public:
-    explicit ResourceLoadException(const std::string& filePath, const std::string& fileType = "File");
+    explicit ResourceLoadException(const std::string& filePath, const std::string& fileType);
+    explicit ResourceLoadException(const std::string& filePath);
 };
 
 class FontLoadException: public ResourceLoadException
