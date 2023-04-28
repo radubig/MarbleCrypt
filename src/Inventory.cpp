@@ -1,4 +1,5 @@
 #include "Inventory.h"
+#include "Exceptions.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -32,7 +33,7 @@ void Inventory::LoadTextures(const std::string& filePath)
     // TODO: Assign Texture ID properly in case of error at loading file
     std::fstream fin(filePath);
     if(!fin.is_open())
-        throw std::runtime_error("File " + filePath + " could not be opened!");
+        throw ResourceLoadException(filePath);
 
     std::string line;
     while(std::getline(fin, line))
@@ -53,7 +54,7 @@ void Inventory::LoadMarbleData(const std::string& filePath)
     // TODO: Assign Texture ID properly in case of error at loading file
     std::fstream fin(filePath);
     if(!fin.is_open())
-        throw std::runtime_error("File " + filePath + " could not be opened!");
+        throw ResourceLoadException(filePath);
 
     std::string line;
     while(std::getline(fin, line))

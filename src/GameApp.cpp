@@ -1,5 +1,6 @@
 #include "GameApp.h"
 #include "DrawableEntity.h"
+#include "Exceptions.h"
 #include <iostream>
 
 bool GameApp::s_instance = false;
@@ -41,13 +42,15 @@ void GameApp::Run()
     // Code for initializations
     // Load font (Mandatory)
     sf::Font font;
-    if(!font.loadFromFile("data/OpenSans-Regular.ttf"))
-        throw std::runtime_error("Font could not be loaded!");
+    const std::string fontFilePath = "data/OpenSans-Regular.ttf";
+    if(!font.loadFromFile(fontFilePath))
+        throw FontLoadException(fontFilePath);
 
     // Load Shop Texture (Mandatory)
     sf::Texture shop_tx;
-    if(!shop_tx.loadFromFile("data/shop.png"))
-        throw std::runtime_error("Shop image could not be loaded!");
+    const std::string textureFilePath = "data/shop.png";
+    if(!shop_tx.loadFromFile(textureFilePath))
+        throw TextureLoadException(textureFilePath);
 
     m_inv.LoadTextures("data/textures.txt");
     m_inv.LoadMarbleData("data/marbles.txt");

@@ -1,4 +1,5 @@
 #include "GameApp.h"
+#include "Exceptions.h"
 #include <iostream>
 
 #ifdef __linux__
@@ -18,6 +19,10 @@ int main()
         app.SetFramerateLimit(144);
         app.Init();
         app.Run();
+    }
+    catch(const ResourceLoadException& err)
+    {
+        std::cerr << "[Resource Load Exception]: " << err.what() << "\n";
     }
     catch(const std::runtime_error& err)
     {
