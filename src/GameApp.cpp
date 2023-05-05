@@ -2,6 +2,7 @@
 #include "DrawableEntity.h"
 #include "Exceptions.h"
 #include <iostream>
+#include <memory>
 
 bool GameApp::s_instance = false;
 
@@ -56,6 +57,10 @@ void GameApp::Run()
     m_inv.LoadMarbleData("data/marbles.txt");
     m_inv.SetDefault();
 
+    // Test de memorie - cumpar 7 bile
+    for(int i = 0; i < 7; i++)
+        m_inv.BuyMarble();
+
     // Main rendering loop
     while(m_window.isOpen())
     {
@@ -63,15 +68,21 @@ void GameApp::Run()
         m_window.clear(sf::Color(80, 80, 80));
 
         float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
-        ShopEntity shopEntity(&shop_tx, font, m_inv);
+        //ShopEntity shopEntity(&shop_tx, font, m_inv);
 
-        std::vector<MarbleEntity> marbles;
+        //TODO: Baga shop-ul si bilele intr-un vector de shared_ptr-uri de DrawableEntity
+        std::vector<std::shared_ptr<DrawableEntity>> renderItems;
+        renderItems.push_back(std::make_shared<ShopEntity>(&shop_tx, font, m_inv));
         for(Marble& marble : m_inv.GetMarbles())
-            marbles.emplace_back(marble, font);
+            //marbles.emplace_back(marble, font);
+            renderItems.push_back(std::make_shared<MarbleEntity>(marble, font));
 
-        shopEntity.Draw(m_window, renderX, renderY);
+        /*shopEntity.Draw(m_window, renderX, renderY);
         for(auto& item : marbles)
-            item.Draw(m_window, renderX, renderY);
+            item.Draw(m_window, renderX, renderY);*/
+
+        for(auto& item : renderItems)
+            item->Draw(m_window, renderX, renderY);
 
         m_window.display();
 
@@ -99,13 +110,28 @@ void GameApp::Run()
                 // Handle events based on Drawable Entities
                 if(e.mouseButton.button == sf::Mouse::Left)
                 {
-                    if(shopEntity.isHovered(pos.x, pos.y))
+                    //preluare entitati
+                    std::shared_ptr<ShopEntity> shopEntity;
+                    std::vector<std::shared_ptr<MarbleEntity>> marbles;
+                    for(auto& i : renderItems)
+                    {
+                        auto shop_ptr = std::dynamic_pointer_cast<ShopEntity>(i);
+                        if(shop_ptr) shopEntity = shop_ptr;
+                        else
+                        {
+                            auto marble_ptr = std::dynamic_pointer_cast<MarbleEntity>(i);
+                            if(marble_ptr)
+                                marbles.push_back(marble_ptr);
+                        }
+                    }
+
+                    if(shopEntity->isHovered(pos.x, pos.y))
                     {
                         if(!m_inv.BuyMarble())
                             std::cout << "Not enough funds!" << std::endl;
                     }
                     else for(size_t i = 0; i < marbles.size(); i++)
-                        if(marbles[i].isHovered(pos.x, pos.y))
+                        if(marbles[i]->isHovered(pos.x, pos.y))
                         {
                             m_inv.AddCoins(m_inv[i].GetYield());
                             m_inv[i].CollectYield();
