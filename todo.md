@@ -12,8 +12,8 @@
 - [ ] Save the state of the game
 - [x] Import SFML
 - [x] Make game playable
-- [ ] Get all textures
-- [ ] Give credit after all textures have been given
+- [ ] Get all textures - still in progress :(
+- [ ] Give credit after all textures have been given (if i ever receive them)
 - [ ] Add rarity
 - [ ] Add fusioning
 - [ ] Add burning

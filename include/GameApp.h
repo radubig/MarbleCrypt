@@ -6,7 +6,6 @@
 #include <memory>
 #include <stdexcept>
 
-// NOTE: yes, this class *should be* a singleton, will refactor later
 class GameApp
 {
 public:

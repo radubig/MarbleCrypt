@@ -92,7 +92,7 @@ long double Inventory::GetNewMarblePrice() const
     return this->m_generator.GetPrice();
 }
 
-bool Inventory::BuyMarble() // NOTE: this may need refactoring
+bool Inventory::BuyMarble()
 {
     if(!m_wallet.Pay(m_generator.GetPrice()))
         return false;

@@ -24,14 +24,17 @@
 
 #### Cerințe
 - [x] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
-- [ ] moșteniri
+- [x] moșteniri
   - [x] clasă cu atribut de tip pointer la o clasă de bază cu derivate
   - [x] funcții virtuale (pure) apelate prin pointeri de bază din clasa de mai sus, constructori virtuali (clone)
     - minim o funcție virtuală va fi **specifică temei** (e.g. nu simple citiri/afișări)
-  - [ ] apelarea constructorului din clasa de bază din constructori din derivate
+    - nota: nu au fost necesari constructori virtuali din cauza design-ului eficient :)
+  - [x] apelarea constructorului din clasa de bază din constructori din derivate
+    - aplicat in ierarhia de exceptii
   - [x] smart pointers
   - [x] `dynamic_cast`
 - [ ] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap
+  - nu sunt necesare deep copy-uri, deci mai e nevoie?
 - [x] excepții
   - [x] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim 2 clase pentru erori specifice
   - [x] utilizare cu sens: de exemplu, `throw` în constructor, `try`/`catch` în `main`

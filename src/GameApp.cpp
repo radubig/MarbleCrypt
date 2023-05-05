@@ -68,18 +68,11 @@ void GameApp::Run()
         m_window.clear(sf::Color(80, 80, 80));
 
         float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
-        //ShopEntity shopEntity(&shop_tx, font, m_inv);
 
-        //TODO: Baga shop-ul si bilele intr-un vector de shared_ptr-uri de DrawableEntity
         std::vector<std::shared_ptr<DrawableEntity>> renderItems;
         renderItems.push_back(std::make_shared<ShopEntity>(&shop_tx, font, m_inv));
         for(Marble& marble : m_inv.GetMarbles())
-            //marbles.emplace_back(marble, font);
             renderItems.push_back(std::make_shared<MarbleEntity>(marble, font));
-
-        /*shopEntity.Draw(m_window, renderX, renderY);
-        for(auto& item : marbles)
-            item.Draw(m_window, renderX, renderY);*/
 
         for(auto& item : renderItems)
             item->Draw(m_window, renderX, renderY);
