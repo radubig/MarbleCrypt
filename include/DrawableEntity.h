@@ -55,4 +55,19 @@ private:
     void DrawObject(sf::RenderWindow& window, float& X, float& Y) override;
 };
 
+
+
+class SpecialMarble : public DrawableEntity
+{
+public:
+    explicit SpecialMarble(Marble& marble, const sf::Font& font);
+
+private:
+    Marble& m_marble;
+    sf::RectangleShape m_image;
+    sf::Text m_text;
+
+    void DrawObject(sf::RenderWindow& window, float& X, float& Y) override;
+};
+
 #endif //MARBLECRYPT_DRAWABLEENTITY_H

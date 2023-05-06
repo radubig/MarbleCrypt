@@ -71,6 +71,8 @@ void GameApp::Run()
 
         std::vector<std::shared_ptr<DrawableEntity>> renderItems;
         renderItems.push_back(std::make_shared<ShopEntity>(&shop_tx, font, m_inv));
+        if(!m_inv.GetMarbles().empty())
+            renderItems.push_back(std::make_shared<SpecialMarble>(m_inv.GetMarbles()[0], font));
         for(Marble& marble : m_inv.GetMarbles())
             renderItems.push_back(std::make_shared<MarbleEntity>(marble, font));
 

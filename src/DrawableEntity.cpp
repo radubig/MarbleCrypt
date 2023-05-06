@@ -126,3 +126,39 @@ void ShopEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
     m_balance.setPosition(X + x, Y + y);
     window.draw(m_balance);
 }
+
+SpecialMarble::SpecialMarble(Marble& marble, const sf::Font& font)
+    :m_marble(marble)
+{
+    // Set canvas color and size
+    this->setSize({s_entity_width, s_entity_height});
+    this->setFillColor(sf::Color::Transparent);
+    this->setOutlineColor(sf::Color::Red);
+    this->setOutlineThickness(2.0f);
+
+    // Set image properties
+    m_image.setTexture(m_marble.GetTexturePtr());
+    m_image.setSize({s_entity_image_size, s_entity_image_size});
+
+    // Set text properties
+    m_text.setFont(font);
+    m_text.setCharacterSize(s_character_size + 4);
+    m_text.setString("Special marble");
+    m_text.setFillColor(sf::Color::Red);
+}
+
+void SpecialMarble::DrawObject(sf::RenderWindow& window, float& X, float& Y)
+{
+    float x, y;
+    // Render image
+    x = (s_entity_width - s_entity_image_size) / 2.0f;
+    y = 10.0f; // Hardcoded for now
+    m_image.setPosition(X + x, Y + y);
+    window.draw(m_image);
+
+    // Render text
+    x = 5.0f;
+    y = s_entity_image_size + 25.0f;
+    m_text.setPosition(X + x, Y + y);
+    window.draw(m_text);
+}
