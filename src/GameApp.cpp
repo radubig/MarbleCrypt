@@ -58,8 +58,8 @@ void GameApp::Run()
     m_inv.SetDefault();
 
     // Test de memorie - cumpar 7 bile
-    for(int i = 0; i < 7; i++)
-        m_inv.BuyMarble();
+    /*for(int i = 0; i < 7; i++)
+        m_inv.BuyMarble();*/
 
     // Main rendering loop
     while(m_window.isOpen())
