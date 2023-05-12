@@ -4,12 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include "Inventory.h"
 
-class DrawableEntity : protected sf::RectangleShape
+class DrawableEntity
 {
 public:
     static float GetOffsetY();
     bool isHovered(float x, float y) const;
     void Draw(sf::RenderWindow& window, float& X, float& Y);
+    virtual ~DrawableEntity() = default;
 
 protected:
     static float s_entity_width;
@@ -18,6 +19,8 @@ protected:
     static float s_entity_offsetX;
     static float s_entity_offsetY;
     static unsigned int s_character_size;
+
+    sf::RectangleShape m_canvas;
 
 private:
     virtual void DrawObject(sf::RenderWindow& window, float& X, float& Y) = 0;

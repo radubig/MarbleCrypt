@@ -14,7 +14,7 @@ float DrawableEntity::GetOffsetY()
 
 bool DrawableEntity::isHovered(float x, float y) const
 {
-    return getGlobalBounds().contains(x, y);
+    return m_canvas.getGlobalBounds().contains(x, y);
 }
 
 void DrawableEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
@@ -23,8 +23,8 @@ void DrawableEntity::Draw(sf::RenderWindow& window, float& X, float& Y)
     X += s_entity_offsetX;
 
     // Render canvas
-    this->setPosition(X, Y);
-    window.draw(*this);
+    m_canvas.setPosition(X, Y);
+    window.draw(m_canvas);
 
     // Custom draw behaviour
     DrawObject(window, X, Y);
@@ -45,10 +45,10 @@ MarbleEntity::MarbleEntity(Marble& marble, const sf::Font& font)
     :m_marble(marble)
 {
     // Set canvas color and size
-    this->setSize({s_entity_width, s_entity_height});
-    this->setFillColor(sf::Color::Transparent);
-    this->setOutlineColor(sf::Color::White);
-    this->setOutlineThickness(2.0f);
+    m_canvas.setSize({s_entity_width, s_entity_height});
+    m_canvas.setFillColor(sf::Color::Transparent);
+    m_canvas.setOutlineColor(sf::Color::White);
+    m_canvas.setOutlineThickness(2.0f);
 
     // Set image properties
     m_image.setTexture(m_marble.GetTexturePtr());
@@ -89,10 +89,10 @@ void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
 ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, const Inventory& inv)
 {
     // Set canvas color and size
-    this->setSize({s_entity_width, s_entity_height});
-    this->setFillColor(sf::Color::Transparent);
-    this->setOutlineColor(sf::Color::White);
-    this->setOutlineThickness(2.0f);
+    m_canvas.setSize({s_entity_width, s_entity_height});
+    m_canvas.setFillColor(sf::Color::Transparent);
+    m_canvas.setOutlineColor(sf::Color::White);
+    m_canvas.setOutlineThickness(2.0f);
 
     // Set image properties
     m_image.setTexture(texture);
@@ -131,10 +131,10 @@ SpecialMarble::SpecialMarble(Marble& marble, const sf::Font& font)
     :m_marble(marble)
 {
     // Set canvas color and size
-    this->setSize({s_entity_width, s_entity_height});
-    this->setFillColor(sf::Color::Transparent);
-    this->setOutlineColor(sf::Color::Red);
-    this->setOutlineThickness(2.0f);
+    m_canvas.setSize({s_entity_width, s_entity_height});
+    m_canvas.setFillColor(sf::Color::Transparent);
+    m_canvas.setOutlineColor(sf::Color::Red);
+    m_canvas.setOutlineThickness(2.0f);
 
     // Set image properties
     m_image.setTexture(m_marble.GetTexturePtr());
