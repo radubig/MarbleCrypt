@@ -50,10 +50,6 @@ MarbleEntity::MarbleEntity(Marble& marble, const sf::Font& font)
     m_canvas.setOutlineColor(sf::Color::White);
     m_canvas.setOutlineThickness(2.0f);
 
-    // Set image properties
-    m_image.setTexture(m_marble.GetTexturePtr());
-    m_image.setSize({s_entity_image_size, s_entity_image_size});
-
     // Set text properties
     m_current_yield.setFont(font);
     m_current_yield.setCharacterSize(s_character_size);
@@ -67,11 +63,34 @@ MarbleEntity::MarbleEntity(Marble& marble, const sf::Font& font)
 void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
 {
     float x, y;
+
     // Render image
     x = (s_entity_width - s_entity_image_size) / 2.0f;
     y = 10.0f; // Hardcoded for now
-    m_image.setPosition(X + x, Y + y);
-    window.draw(m_image);
+    sf::RectangleShape imag1, imag2;
+    imag1.setSize({s_entity_image_size, s_entity_image_size});
+    imag1.setPosition(X + x, Y + y);
+    imag2.setSize({s_entity_image_size, s_entity_image_size});
+    imag2.setPosition(X + x, Y + y);
+    if(m_marble.GetTexturePtr2() == nullptr)
+    {
+        imag1.setTexture(m_marble.GetTexturePtr());
+        window.draw(imag1);
+    }
+    else
+    {
+        imag1.setTexture(m_marble.GetTexturePtr());
+        auto cl1 = imag1.getFillColor();
+        cl1.a /= 2;
+        imag1.setFillColor(cl1);
+
+        imag2.setTexture(m_marble.GetTexturePtr2());
+        auto cl2 = imag1.getFillColor();
+        cl2.a /= 2;
+        imag2.setFillColor(cl2);
+        window.draw(imag1);
+        window.draw(imag2, sf::BlendAlpha);
+    }
 
     // Render text
     x = 5.0f;

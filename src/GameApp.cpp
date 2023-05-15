@@ -147,6 +147,10 @@ void GameApp::Run()
                 {
                     m_inv.CollectAll();
                 }
+                else if(e.key.code == sf::Keyboard::Key::F)
+                {
+                    m_inv.FusionMarbles(0, 1);
+                }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {

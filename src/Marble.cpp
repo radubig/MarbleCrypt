@@ -2,9 +2,10 @@
 #include <iostream>
 #include <cmath>
 
-Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture = nullptr) :
+Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture_1, sf::Texture* texture_2) :
     m_name(std::move(name)),
-    m_texture(texture),
+    m_texture(texture_1),
+    m_texture_2(texture_2),
     m_timepoint_gen(std::chrono::system_clock::now()),
     m_timepoint_last_yield(m_timepoint_gen),
     m_daily_yield(daily_yield)
@@ -13,6 +14,7 @@ Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture = nul
 Marble::Marble(const Marble& other) :
     m_name(other.m_name),
     m_texture(other.m_texture),
+    m_texture_2(other.m_texture_2),
     m_timepoint_gen(other.m_timepoint_gen),
     m_timepoint_last_yield(other.m_timepoint_last_yield),
     m_daily_yield(other.m_daily_yield)
@@ -25,6 +27,7 @@ Marble& Marble::operator=(const Marble& other)
         return *this;
     m_name = other.m_name;
     m_texture = other.m_texture;
+    m_texture_2 = other.m_texture_2;
     m_timepoint_gen = other.m_timepoint_gen;
     m_timepoint_last_yield = other.m_timepoint_last_yield;
     m_daily_yield = other.m_daily_yield;
@@ -65,6 +68,11 @@ Marble::~Marble()
 sf::Texture* Marble::GetTexturePtr() const
 {
     return m_texture;
+}
+
+sf::Texture* Marble::GetTexturePtr2() const
+{
+    return m_texture_2;
 }
 
 const std::string& Marble::GetName() const

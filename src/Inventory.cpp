@@ -130,3 +130,18 @@ void Inventory::AddCoins(long double ammount) noexcept
 {
     m_wallet.Add(ammount);
 }
+
+void Inventory::FusionMarbles(uint32_t index_first, uint32_t index_second)
+{
+    // check if the elements do exist in the vector
+    if(index_first >= m_marbles.size() || index_second >= m_marbles.size())
+        throw std::runtime_error("Indicies provided for fusioning are out of bounds!");
+
+    // create new marble based on previous 2 marbles
+    m_marbles.emplace_back(
+            m_marbles[index_first].GetName() + m_marbles[index_second].GetName(),
+            std::max(m_marbles[index_first].GetDailyYield(), m_marbles[index_second].GetDailyYield()) * 4,
+            m_marbles[index_first].GetTexturePtr(),
+            m_marbles[index_second].GetTexturePtr()
+            );
+}

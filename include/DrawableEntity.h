@@ -35,7 +35,7 @@ public:
     explicit MarbleEntity(Marble& marble, const sf::Font& font);
 private:
     Marble& m_marble;
-    sf::RectangleShape m_image;
+    //sf::RectangleShape m_image;
     sf::Text m_name;
     sf::Text m_current_yield;
     sf::Text m_daily_yield;

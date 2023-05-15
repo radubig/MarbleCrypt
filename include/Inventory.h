@@ -32,6 +32,7 @@ public:
     bool BuyMarble();
     void CollectAll();
     void AddCoins(long double ammount) noexcept;
+    void FusionMarbles(uint32_t index_first, uint32_t index_second);
 
 private:
     std::vector<sf::Texture> m_textures;
