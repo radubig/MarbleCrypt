@@ -80,16 +80,12 @@ void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
     else
     {
         imag1.setTexture(m_marble.GetTexturePtr());
-        auto cl1 = imag1.getFillColor();
-        cl1.a /= 2;
-        imag1.setFillColor(cl1);
-
         imag2.setTexture(m_marble.GetTexturePtr2());
         auto cl2 = imag1.getFillColor();
         cl2.a /= 2;
         imag2.setFillColor(cl2);
         window.draw(imag1);
-        window.draw(imag2, sf::BlendAlpha);
+        window.draw(imag2);
     }
 
     // Render text
