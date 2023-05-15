@@ -2,4 +2,14 @@ data/bila_red.png
 data/bila_blue.png
 data/bila_green.png
 data/bila_yellow.png
-data/marble.png
+data/glass_bronze.png
+data/glass_pink.png
+data/glass_purple.png
+data/glass_turqoise.png
+data/mistic_blue.png
+data/mistic_grey.png
+data/mistic_red.png
+data/mistic_yellow.png
+data/magic_green.png
+data/magic_magenta.png
+data/infinite_ball.png

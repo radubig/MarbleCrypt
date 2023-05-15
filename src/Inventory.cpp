@@ -140,7 +140,7 @@ void Inventory::FusionMarbles(uint32_t index_first, uint32_t index_second)
     // create new marble based on previous 2 marbles
     m_marbles.emplace_back(
             m_marbles[index_first].GetName() + m_marbles[index_second].GetName(),
-            std::max(m_marbles[index_first].GetDailyYield(), m_marbles[index_second].GetDailyYield()) * 4,
+            std::max(m_marbles[index_first].GetDailyYield(), m_marbles[index_second].GetDailyYield()) * 5,
             m_marbles[index_first].GetTexturePtr(),
             m_marbles[index_second].GetTexturePtr()
             );

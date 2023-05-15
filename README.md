@@ -26,7 +26,12 @@ You can obtain Marbles either by buying them with <b>$MTK</b> or by fusioning tw
 ## References & Dependencies
 - [SFML](https://www.sfml-dev.org/)
 
-This project was inspired by Yipy's [RealZoo](https://realzoo.itsyipy.com/).
+## Special thanks to
+- [Daniel Ghindea](https://github.com/Ghindea) for the textures
+
+<br>
+
+#### This project was inspired by Yipy's [RealZoo](https://realzoo.itsyipy.com/).
 
 ### Disclaimer
 I do not endorse investing into cryptocoins or NFTs of any kind in real life. 
