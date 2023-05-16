@@ -10,7 +10,9 @@ public:
     static float GetOffsetY();
     bool isHovered(float x, float y) const;
     void Draw(sf::RenderWindow& window, float& X, float& Y);
+    void SetOutlineColor(sf::Color color);
     virtual ~DrawableEntity() = default;
+    virtual void OnLeftClick(Inventory& inv) = 0;
 
 protected:
     static float s_entity_width;
@@ -32,10 +34,13 @@ private:
 class MarbleEntity : public DrawableEntity
 {
 public:
-    explicit MarbleEntity(Marble& marble, const sf::Font& font);
+    explicit MarbleEntity(Marble& marble, uint32_t index, const sf::Font& font);
+    void OnLeftClick(Inventory& inv) override;
+    uint32_t GetMarbleIndex() const;
+
 private:
     Marble& m_marble;
-    //sf::RectangleShape m_image;
+    uint32_t m_indexOfMarble;
     sf::Text m_name;
     sf::Text m_current_yield;
     sf::Text m_daily_yield;
@@ -49,6 +54,7 @@ class ShopEntity : public DrawableEntity
 {
 public:
     explicit ShopEntity(sf::Texture* texture, const sf::Font& font, const Inventory& inv);
+    void OnLeftClick(Inventory& inv) override;
 
 private:
     sf::RectangleShape m_image;

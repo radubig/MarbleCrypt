@@ -15,7 +15,7 @@
 - [x] Get all textures
 - [x] Give credit after all textures have been given
 - [ ] Add rarity
-- [ ] Add fusioning - wip
+- [x] Add fusing 
 - [ ] Add burning
 
 <!-- Raritati posibile:

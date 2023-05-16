@@ -5,6 +5,7 @@
 #include "Inventory.h"
 #include <memory>
 #include <stdexcept>
+#include <unordered_set>
 
 class GameApp
 {
@@ -21,6 +22,8 @@ public:
 
 private:
     const std::string m_title = "MarbleCrypt";
+    const std::string fontFilePath = "data/OpenSans-Regular.ttf";
+    const std::string shopTextureFilePath = "data/shop.png";
 
     static bool s_instance;
     sf::RenderWindow m_window;
@@ -28,6 +31,10 @@ private:
     unsigned int m_height = 720;
     unsigned int m_framerate_limit = 144;
     Inventory m_inv;
+
+    sf::Font m_font;
+    sf::Texture m_shop_tx;
+    std::unordered_set<uint32_t> m_selected_marbles;
 };
 
 #endif //MARBLECRYPT_GAMEAPP_H

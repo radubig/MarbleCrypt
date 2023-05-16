@@ -137,6 +137,9 @@ void Inventory::FusionMarbles(uint32_t index_first, uint32_t index_second)
     if(index_first >= m_marbles.size() || index_second >= m_marbles.size())
         throw std::runtime_error("Indicies provided for fusioning are out of bounds!");
 
+    if(index_first > index_second)
+        std::swap(index_first, index_second);
+
     // create new marble based on previous 2 marbles
     m_marbles.emplace_back(
             m_marbles[index_first].GetName() + m_marbles[index_second].GetName(),
@@ -144,4 +147,7 @@ void Inventory::FusionMarbles(uint32_t index_first, uint32_t index_second)
             m_marbles[index_first].GetTexturePtr(),
             m_marbles[index_second].GetTexturePtr()
             );
+
+    m_marbles.erase(m_marbles.begin() + index_second);
+    m_marbles.erase(m_marbles.begin() + index_first);
 }

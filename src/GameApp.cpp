@@ -33,34 +33,26 @@ void GameApp::SetFramerateLimit(unsigned int value)
 
 void GameApp::Init()
 {
+    // create window
     m_window.create(sf::VideoMode({m_width, m_height}), m_title, sf::Style::Default);
     m_window.setVerticalSyncEnabled(true);
     m_window.setFramerateLimit(m_framerate_limit);
-}
 
-void GameApp::Run()
-{
-    // Code for initializations
-    // Load font (Mandatory)
-    sf::Font font;
-    const std::string fontFilePath = "data/OpenSans-Regular.ttf";
-    if(!font.loadFromFile(fontFilePath))
+    // Load m_font (Mandatory)
+    if(!m_font.loadFromFile(fontFilePath))
         throw FontLoadException(fontFilePath);
 
     // Load Shop Texture (Mandatory)
-    sf::Texture shop_tx;
-    const std::string textureFilePath = "data/shop.png";
-    if(!shop_tx.loadFromFile(textureFilePath))
-        throw TextureLoadException(textureFilePath);
+    if(!m_shop_tx.loadFromFile(shopTextureFilePath))
+        throw TextureLoadException(shopTextureFilePath);
 
     m_inv.LoadTextures("data/textures.txt");
     m_inv.LoadMarbleData("data/marbles.txt");
     m_inv.SetDefault();
+}
 
-    // Test de memorie - cumpar 7 bile
-    /*for(int i = 0; i < 7; i++)
-        m_inv.BuyMarble();*/
-
+void GameApp::Run()
+{
     // Main rendering loop
     while(m_window.isOpen())
     {
@@ -70,9 +62,15 @@ void GameApp::Run()
         float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
 
         std::vector<std::shared_ptr<DrawableEntity>> renderItems;
-        renderItems.push_back(std::make_shared<ShopEntity>(&shop_tx, font, m_inv));
-        for(Marble& marble : m_inv.GetMarbles())
-            renderItems.push_back(std::make_shared<MarbleEntity>(marble, font));
+        // insert shop into renderItems
+        renderItems.push_back(std::make_shared<ShopEntity>(&m_shop_tx, m_font, m_inv));
+        // insert all marbles into renderItmes
+        for(uint32_t i = 0; i < m_inv.GetMarbles().size(); i++)
+        {
+            renderItems.push_back(std::make_shared<MarbleEntity>(m_inv[i], i, m_font));
+            if(m_selected_marbles.contains(i))
+                (*(renderItems.rbegin()))->SetOutlineColor(sf::Color::Red);
+        }
 
         for(auto& item : renderItems)
             item->Draw(m_window, renderX, renderY);
@@ -100,35 +98,28 @@ void GameApp::Run()
             }
             else if(e.type == sf::Event::MouseButtonPressed)
             {
-                // Handle events based on Drawable Entities
+                // Left Click events
                 if(e.mouseButton.button == sf::Mouse::Left)
                 {
-                    //preluare entitati
-                    std::shared_ptr<ShopEntity> shopEntity;
-                    std::vector<std::shared_ptr<MarbleEntity>> marbles;
                     for(auto& i : renderItems)
+                        if(i->isHovered(pos.x, pos.y))
+                            i->OnLeftClick(m_inv);
+                }
+                // Right click events
+                else if(e.mouseButton.button == sf::Mouse::Right)
+                {
+                    for(auto& i : renderItems) if(i->isHovered(pos.x, pos.y))
                     {
-                        auto shop_ptr = std::dynamic_pointer_cast<ShopEntity>(i);
-                        if(shop_ptr) shopEntity = shop_ptr;
-                        else
+                        auto marble_ptr = std::dynamic_pointer_cast<MarbleEntity>(i);
+                        if(marble_ptr)
                         {
-                            auto marble_ptr = std::dynamic_pointer_cast<MarbleEntity>(i);
-                            if(marble_ptr)
-                                marbles.push_back(marble_ptr);
+                            uint32_t index = marble_ptr->GetMarbleIndex();
+                            if(m_selected_marbles.contains(index))
+                                m_selected_marbles.erase(index);
+                            else
+                                m_selected_marbles.insert(index);
                         }
                     }
-
-                    if(shopEntity->isHovered(pos.x, pos.y))
-                    {
-                        if(!m_inv.BuyMarble())
-                            std::cout << "Not enough funds!" << std::endl;
-                    }
-                    else for(size_t i = 0; i < marbles.size(); i++)
-                        if(marbles[i]->isHovered(pos.x, pos.y))
-                        {
-                            m_inv.AddCoins(m_inv[i].GetYield());
-                            m_inv[i].CollectYield();
-                        }
                 }
             }
             else if(e.type == sf::Event::KeyPressed)
@@ -147,7 +138,22 @@ void GameApp::Run()
                 }
                 else if(e.key.code == sf::Keyboard::Key::F)
                 {
-                    m_inv.FusionMarbles(0, 1);
+                    if(m_selected_marbles.size() == 2)
+                    {
+                        auto iter1 = m_selected_marbles.begin();
+                        auto iter2 = iter1;
+                        iter2++;
+                        if(m_inv[*iter1].GetTexturePtr2() != nullptr ||
+                           m_inv[*iter2].GetTexturePtr2() != nullptr)
+                                std::cout << "The marbles selected are not basic marbles!" << std::endl;
+                        else
+                        {
+                            m_inv.FusionMarbles(*iter1, *iter2);
+                            m_selected_marbles.clear();
+                        }
+                    }
+                    else
+                        std::cout << "Too many or too few marbles selected for fusioning!" << std::endl;
                 }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)

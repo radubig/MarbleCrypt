@@ -9,7 +9,7 @@ Made by Colțoș Radu-Mihai
 MarbleCrypt is a <i> fun, fun </i> game where you can collect your very own <i> Super Crypto Aesthetic Marble </i> NFTs (commonly reffered as <i>Marbles</i>) that yield
 Marble Tokens <b>$MTK</b> on a daily basis!
 
-You can obtain Marbles either by buying them with <b>$MTK</b> or by fusioning two other Marbles into one!
+You can obtain Marbles either by buying them with <b>$MTK</b> or by fusing two other Marbles into one!
 
 (To be continued...)
 
@@ -17,6 +17,8 @@ You can obtain Marbles either by buying them with <b>$MTK</b> or by fusioning tw
 - Graphical interface
 - Ability to generate new basic marbles by buying them
   - Click on the shop icon or press `B` to buy a new marble
+- Ability to fuse two basic marbles into a new, better one
+  - Right-click on two marbles to select them, then press `F` to fuse them together!
 - Ability to collect the current yield of the marbles
   - You can press each marble to collect its yield, or press `C` to collect all yields
   - You can press `A` to add 100 coins to your wallet (for testing purposes)

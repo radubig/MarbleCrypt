@@ -1,4 +1,5 @@
 #include "DrawableEntity.h"
+#include <iostream>
 
 float DrawableEntity::s_entity_width = 200.0f;
 float DrawableEntity::s_entity_height = 300.0f;
@@ -41,8 +42,13 @@ void DrawableEntity::UpdateBounds(sf::RenderWindow& window, float& X, float& Y)
         Y += s_entity_height + s_entity_offsetY, X = 0;
 }
 
-MarbleEntity::MarbleEntity(Marble& marble, const sf::Font& font)
-    :m_marble(marble)
+void DrawableEntity::SetOutlineColor(sf::Color color)
+{
+    m_canvas.setOutlineColor(color);
+}
+
+MarbleEntity::MarbleEntity(Marble& marble, uint32_t index, const sf::Font& font)
+    :m_marble(marble), m_indexOfMarble(index)
 {
     // Set canvas color and size
     m_canvas.setSize({s_entity_width, s_entity_height});
@@ -101,6 +107,17 @@ void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
     window.draw(m_daily_yield);
 }
 
+void MarbleEntity::OnLeftClick(Inventory& inv)
+{
+    inv.AddCoins(inv[m_indexOfMarble].GetYield());
+    inv[m_indexOfMarble].CollectYield();
+}
+
+uint32_t MarbleEntity::GetMarbleIndex() const
+{
+    return m_indexOfMarble;
+}
+
 ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, const Inventory& inv)
 {
     // Set canvas color and size
@@ -140,4 +157,10 @@ void ShopEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
     y += 35.0f;
     m_balance.setPosition(X + x, Y + y);
     window.draw(m_balance);
+}
+
+void ShopEntity::OnLeftClick(Inventory& inv)
+{
+    if(!inv.BuyMarble())
+        std::cout << "Not enough funds!" << std::endl;
 }
