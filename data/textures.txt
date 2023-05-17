@@ -13,3 +13,4 @@ data/mistic_yellow.png
 data/magic_green.png
 data/magic_magenta.png
 data/infinite_ball.png
+data/infinity_ball.png
