@@ -82,8 +82,11 @@ const std::string& Marble::GetName() const
 
 void Marble::CollectYield()
 {
-    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-    m_timepoint_last_yield = now;
+    if(GetYield() > 0)
+    {
+        std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+        m_timepoint_last_yield = now;
+    }
 }
 
 int64_t Marble::GetDailyYield() const
