@@ -11,6 +11,23 @@ Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture_1, sf
     m_daily_yield(daily_yield)
 {}
 
+template<MarbleRarity T>
+Marble::Marble(MarbleLoader::MarbleData<T> data) :
+    m_name(data.name),
+    m_texture(data.texture),
+    m_texture_2(nullptr),
+    m_timepoint_gen(std::chrono::system_clock::now()),
+    m_timepoint_last_yield(m_timepoint_gen),
+    m_daily_yield(static_cast<long long>(T))
+{}
+
+template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Normal> data);
+template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Rare> data);
+template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::SuperRare> data);
+template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::UltraRare> data);
+template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Legendary> data);
+template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Mythic> data);
+
 Marble::Marble(const Marble& other) :
     m_name(other.m_name),
     m_texture(other.m_texture),

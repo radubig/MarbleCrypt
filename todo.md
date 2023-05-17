@@ -14,16 +14,16 @@
 - [x] Make game playable
 - [x] Get all textures
 - [x] Give credit after all textures have been given
-- [ ] Add rarity
+- [x] Add rarity
 - [x] Add fusing 
 - [ ] Add burning
 
 <!-- Raritati posibile:
-* normal 55%
-* rare 30%
-* super 12.5%
-* ultra rare 2%
-* legendary 0.5%
+* normal 54% 1-54
+* rare 30% 55-84
+* super 12% 85-96
+* ultra rare 3% 97-99
+* legendary 1% 100
 * mythic 0% (fusion-only)
 
 * Hugging Face

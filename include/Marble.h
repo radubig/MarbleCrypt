@@ -6,6 +6,7 @@
 #include <string>
 #include <chrono>
 #include <utility>
+#include "DataLoader.h"
 
 class Marble
 {
@@ -13,6 +14,7 @@ class Marble
 
 public:
     Marble(std::string, int64_t, sf::Texture* = nullptr, sf::Texture* = nullptr);
+    template<MarbleRarity T> explicit Marble(MarbleLoader::MarbleData<T> data);
     Marble(const Marble&);
     Marble& operator= (const Marble&);
     Marble(Marble&&) = default;

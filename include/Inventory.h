@@ -6,17 +6,10 @@
 #include "CryptoCoin.h"
 #include "Marble.h"
 #include "Generator.h"
+#include "DataLoader.h"
 
 class Inventory
 {
-    struct MarbleData
-    {
-        std::string name;
-        long long daily_yield;
-        uint32_t textureID;
-        //int rarity;
-    };
-
 public:
     Inventory() = default;
     ~Inventory() = default;
@@ -37,10 +30,10 @@ public:
 
 private:
     std::vector<sf::Texture> m_textures;
-    std::vector<MarbleData> m_marble_data_list;
     CryptoCoin m_wallet;
     std::vector<Marble> m_marbles;
     Generator m_generator;
+    MarbleLoader m_marble_loader;
 };
 
 #endif //MARBLECRYPT_INVENTORY_H

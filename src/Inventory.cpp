@@ -2,24 +2,11 @@
 #include "Exceptions.h"
 #include <iostream>
 #include <fstream>
-#include <sstream>
 
 std::ostream& operator<<(std::ostream& os, const Inventory& inv)
 {
     os << "Cryptomonede detinute: " << inv.m_wallet << "\n";
-
-    if(inv.m_marble_data_list.empty())
-        os << "No marble data loaded!\n";
-    else
-    {
-        os << "Marble data loaded:\n";
-        for(const Inventory::MarbleData& md : inv.m_marble_data_list)
-        {
-            os << md.name << " " << md.daily_yield << " " << md.textureID << "\n";
-        }
-    }
     os << "\n";
-
     os << "Enumerare bile detinute:\n";
     os << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
     for(const Marble& marble : inv.m_marbles)
@@ -51,28 +38,8 @@ void Inventory::LoadTextures(const std::string& filePath)
 
 void Inventory::LoadMarbleData(const std::string& filePath)
 {
-    // TODO: Assign Texture ID properly in case of error at loading file
-    std::fstream fin(filePath);
-    if(!fin.is_open())
-        throw ResourceLoadException(filePath);
-
-    std::string line;
-    while(std::getline(fin, line))
-    {
-        std::stringstream ss(line);
-        MarbleData md;
-        ss >> md.name >> md.daily_yield >> md.textureID;
-        // Extra checking to ensure the texture exists in memory
-        if(md.textureID > m_textures.size() - 1)
-        {
-            std::cout << "[WARNING] Texture ID #" << md.textureID << " is not loaded in memory!\n";
-            std::cout << "[WARNING] The marble " << md.name << " has been discarded!\n";
-            continue;
-        }
-        m_marble_data_list.push_back(std::move(md));
-    }
-    fin.close();
-    m_generator.SetRange(0, m_marble_data_list.size()-1);
+    m_marble_loader.LoadMarbleData(filePath, m_textures);
+    m_generator.SetRange(1, 100);
 }
 
 void Inventory::SetDefault()
@@ -96,13 +63,13 @@ bool Inventory::BuyMarble()
 {
     if(!m_wallet.Pay(m_generator.GetPrice()))
         return false;
-    auto index = m_generator();
+    auto chance = m_generator();
+    if(chance <= 54) m_marbles.emplace_back(m_marble_loader.GetNormalMarble());
+    else if(chance <= 84) m_marbles.emplace_back(m_marble_loader.GetRareMarble());
+    else if(chance <= 96) m_marbles.emplace_back(m_marble_loader.GetSuperRareMarble());
+    else if(chance <= 99) m_marbles.emplace_back(m_marble_loader.GetUltraRareMarble());
+    else m_marbles.emplace_back(m_marble_loader.GetLegendaryMarble());
 
-    m_marbles.emplace_back(
-        m_marble_data_list[index].name,
-        m_marble_data_list[index].daily_yield,
-        &m_textures[m_marble_data_list[index].textureID]
-        );
     return true;
 }
 
