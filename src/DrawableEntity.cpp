@@ -72,7 +72,7 @@ MarbleEntity::MarbleEntity(Inventory& inventory, uint32_t index, const sf::Font&
 void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
 {
     float x, y;
-    Marble& m_marble = m_inv[m_indexOfMarble];
+    const Marble& m_marble = m_inv[m_indexOfMarble];
 
     // Render image
     x = (s_entity_width - s_entity_image_size) / 2.0f;
