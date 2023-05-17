@@ -13,10 +13,10 @@ class Marble
     typedef std::chrono::time_point<std::chrono::system_clock> TP;
 
 public:
-    Marble(std::string, int64_t, sf::Texture* = nullptr, sf::Texture* = nullptr);
+    Marble(std::string, int64_t, sf::Texture*, sf::Texture*, MarbleRarity);
     template<MarbleRarity T> explicit Marble(MarbleLoader::MarbleData<T> data);
-    Marble(const Marble&);
-    Marble& operator= (const Marble&);
+    Marble(const Marble&) = delete;
+    Marble& operator= (const Marble&) = delete;
     Marble(Marble&&) = default;
     Marble& operator= (Marble&&) = default;
     ~Marble();
@@ -26,6 +26,7 @@ public:
     sf::Texture* GetTexturePtr2() const;
     int64_t GetYield() const;
     int64_t GetDailyYield() const;
+    MarbleRarity GetRarity() const;
     void CollectYield();
     const std::string& GetName() const;
 
@@ -33,6 +34,7 @@ private:
     std::string m_name;
     sf::Texture* m_texture;
     sf::Texture* m_texture_2;
+    MarbleRarity m_rarity;
     TP m_timepoint_gen;
     TP m_timepoint_last_yield;
     int64_t m_daily_yield;

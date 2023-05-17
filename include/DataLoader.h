@@ -6,7 +6,7 @@
 #include <vector>
 
 enum class MarbleRarity {
-    Normal = 200ll, Rare = 320ll, SuperRare = 510ll, UltraRare = 820ll, Legendary = 1400ll, Mythic = 16000ll
+    Normal = 200ll, Rare = 320ll, SuperRare = 510ll, UltraRare = 820ll, Legendary = 2000ll, Mythic = 16000ll
 };
 
 class MarbleLoader

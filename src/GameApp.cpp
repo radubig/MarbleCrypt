@@ -67,7 +67,7 @@ void GameApp::Run()
         // insert action into renderItems
         renderItems.push_back(std::make_shared<ActionEntity>(m_inv, m_selected_marbles, m_font));
         // insert all marbles into renderItmes
-        for(uint32_t i = 0; i < m_inv.GetMarbles().size(); i++)
+        for(uint32_t i = 0; i < m_inv.GetMarblesSize(); i++)
         {
             renderItems.push_back(std::make_shared<MarbleEntity>(m_inv, i, m_font));
             if(m_selected_marbles.contains(i))
@@ -129,6 +129,10 @@ void GameApp::Run()
                 if(e.key.code == sf::Keyboard::Key::A)
                 {
                     m_inv.AddCoins(100);
+                }
+                else if(e.key.code == sf::Keyboard::Key::G)
+                {
+                    m_inv.GenerateEachRarity();
                 }
                 /*else if(e.key.code == sf::Keyboard::Key::B)
                 {

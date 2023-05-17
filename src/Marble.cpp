@@ -2,10 +2,11 @@
 #include <iostream>
 #include <cmath>
 
-Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture_1, sf::Texture* texture_2) :
+Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture_1, sf::Texture* texture_2, MarbleRarity rarity) :
     m_name(std::move(name)),
     m_texture(texture_1),
     m_texture_2(texture_2),
+    m_rarity(rarity),
     m_timepoint_gen(std::chrono::system_clock::now()),
     m_timepoint_last_yield(m_timepoint_gen),
     m_daily_yield(daily_yield)
@@ -16,6 +17,7 @@ Marble::Marble(MarbleLoader::MarbleData<T> data) :
     m_name(data.name),
     m_texture(data.texture),
     m_texture_2(nullptr),
+    m_rarity(T),
     m_timepoint_gen(std::chrono::system_clock::now()),
     m_timepoint_last_yield(m_timepoint_gen),
     m_daily_yield(static_cast<long long>(T))
@@ -27,29 +29,6 @@ template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::SuperRare> data);
 template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::UltraRare> data);
 template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Legendary> data);
 template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Mythic> data);
-
-Marble::Marble(const Marble& other) :
-    m_name(other.m_name),
-    m_texture(other.m_texture),
-    m_texture_2(other.m_texture_2),
-    m_timepoint_gen(other.m_timepoint_gen),
-    m_timepoint_last_yield(other.m_timepoint_last_yield),
-    m_daily_yield(other.m_daily_yield)
-{}
-
-Marble& Marble::operator=(const Marble& other)
-{
-    // Check for self assignment
-    if(this == &other)
-        return *this;
-    m_name = other.m_name;
-    m_texture = other.m_texture;
-    m_texture_2 = other.m_texture_2;
-    m_timepoint_gen = other.m_timepoint_gen;
-    m_timepoint_last_yield = other.m_timepoint_last_yield;
-    m_daily_yield = other.m_daily_yield;
-    return *this;
-}
 
 std::ostream& operator<<(std::ostream& os, const Marble& marble)
 {
@@ -67,7 +46,6 @@ int64_t Marble::GetYield() const
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     int64_t dur = std::chrono::duration_cast<std::chrono::seconds>(now - m_timepoint_last_yield).count();
     double total_yield = double(dur) * YieldPerSec();
-    //std::cout << "The yield of " << m_name << " is now " << total_yield << "\n";
     return int64_t(total_yield);
 }
 
@@ -109,4 +87,9 @@ void Marble::CollectYield()
 int64_t Marble::GetDailyYield() const
 {
     return m_daily_yield;
+}
+
+MarbleRarity Marble::GetRarity() const
+{
+    return m_rarity;
 }

@@ -21,12 +21,15 @@ public:
     void SetDefault();
     long double GetBalance() const;
     long double GetNewMarblePrice() const;
-    std::vector<Marble>& GetMarbles(); // TODO: refactor this
+    size_t GetMarblesSize() const; // TODO: refactor this
     bool BuyMarble();
     void CollectAll();
     void AddCoins(long double ammount) noexcept;
     void FusionMarbles(uint32_t index_first, uint32_t index_second);
     bool IsFusable(uint32_t index_first, uint32_t index_second) const;
+
+    //Cheats:
+    void GenerateEachRarity();
 
 private:
     std::vector<sf::Texture> m_textures;

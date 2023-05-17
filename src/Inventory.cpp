@@ -73,6 +73,15 @@ bool Inventory::BuyMarble()
     return true;
 }
 
+void Inventory::GenerateEachRarity()
+{
+    m_marbles.emplace_back(m_marble_loader.GetNormalMarble());
+    m_marbles.emplace_back(m_marble_loader.GetRareMarble());
+    m_marbles.emplace_back(m_marble_loader.GetSuperRareMarble());
+    m_marbles.emplace_back(m_marble_loader.GetUltraRareMarble());
+    m_marbles.emplace_back(m_marble_loader.GetLegendaryMarble());
+}
+
 void Inventory::CollectAll()
 {
     for(Marble& marble : m_marbles)
@@ -88,9 +97,9 @@ Marble& Inventory::operator[](uint32_t index)
     return m_marbles[index];
 }
 
-std::vector<Marble>& Inventory::GetMarbles()
+size_t Inventory::GetMarblesSize() const
 {
-    return m_marbles;
+    return m_marbles.size();
 }
 
 void Inventory::AddCoins(long double ammount) noexcept
@@ -108,12 +117,28 @@ void Inventory::FusionMarbles(uint32_t index_first, uint32_t index_second)
         std::swap(index_first, index_second);
 
     // create new marble based on previous 2 marbles
-    m_marbles.emplace_back(
+    if(m_marbles[index_first].GetRarity() == MarbleRarity::Legendary &&
+       m_marbles[index_second].GetRarity() == MarbleRarity::Legendary)
+    {
+        m_marbles.emplace_back(
             m_marbles[index_first].GetName() + m_marbles[index_second].GetName(),
-            std::max(m_marbles[index_first].GetDailyYield(), m_marbles[index_second].GetDailyYield()) * 5,
+            static_cast<long long>(MarbleRarity::Mythic),
             m_marbles[index_first].GetTexturePtr(),
-            m_marbles[index_second].GetTexturePtr()
-            );
+            m_marbles[index_second].GetTexturePtr(),
+            MarbleRarity::Mythic
+        );
+    }
+    else
+    {
+        MarbleRarity rarity = std::max(m_marbles[index_first].GetRarity(), m_marbles[index_second].GetRarity());
+        m_marbles.emplace_back(
+                m_marbles[index_first].GetName() + m_marbles[index_second].GetName(),
+                static_cast<long long>(rarity) * 5,
+                m_marbles[index_first].GetTexturePtr(),
+                m_marbles[index_second].GetTexturePtr(),
+                rarity
+        );
+    }
 
     m_marbles.erase(m_marbles.begin() + index_second);
     m_marbles.erase(m_marbles.begin() + index_first);
