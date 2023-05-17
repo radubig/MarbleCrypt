@@ -32,6 +32,7 @@ private:
     unsigned int m_width = 1280;
     unsigned int m_height = 720;
     unsigned int m_framerate_limit = 144;
+    float m_scroll = 0.0f;
     Inventory m_inv;
 
     sf::Font m_font;

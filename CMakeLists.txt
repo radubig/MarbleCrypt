@@ -86,8 +86,7 @@ endif()
 
 # Custom include commands
 file(GLOB_RECURSE Src "src/*")
-file(GLOB_RECURSE Include "include/*")
-add_executable(${PROJECT_NAME} ${Include} ${Src})
+add_executable(${PROJECT_NAME} ${Src})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 ###############################################################################
@@ -136,5 +135,3 @@ endif()
 # update name in .github/workflows/cmake.yml:29 when changing "bin" name here
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(DIRECTORY data DESTINATION bin)
-# install(DIRECTORY some_dir1 some_dir2 DESTINATION bin)
-# install(FILES some_file1.txt some_file2.md DESTINATION bin)

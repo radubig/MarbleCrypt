@@ -21,7 +21,7 @@ public:
     void SetDefault();
     long double GetBalance() const;
     long double GetNewMarblePrice() const;
-    size_t GetMarblesSize() const; // TODO: refactor this
+    size_t GetMarblesSize() const;
     bool BuyMarble();
     void CollectAll();
     void AddCoins(long double ammount) noexcept;

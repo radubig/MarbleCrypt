@@ -145,9 +145,14 @@ void GameApp::Run()
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {
-                // TODO: Add scrollbar
-                view.move(0, -e.mouseWheelScroll.delta * 80);
-                m_window.setView(view);
+                m_scroll -= e.mouseWheelScroll.delta * 80;
+                if(m_scroll < 0)
+                    m_scroll = 0;
+                else
+                {
+                    view.move(0, -e.mouseWheelScroll.delta * 80);
+                    m_window.setView(view);
+                }
             }
         }
     }
