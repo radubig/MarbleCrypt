@@ -213,7 +213,7 @@ void ActionEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
             window.draw(m_action_name);
 
             auto index = *m_selectedMarbles.begin();
-            auto value = m_inv[index].GetDailyYield();
+            auto value = m_inv.GetBurnValue(index);
             m_action_value.setString(std::to_string(uint64_t(value)) + " $MTK");
             x = (s_entity_width - m_action_value.getGlobalBounds().width) / 2.0f;
             y += 35.0f;
@@ -254,7 +254,8 @@ void ActionEntity::OnLeftClick()
             break;
 
         case ActionType::Burn:
-            // TODO: implement burning
+            m_inv.BurnMarble(*m_selectedMarbles.begin());
+            m_selectedMarbles.clear();
             break;
 
         case ActionType::Fusion:

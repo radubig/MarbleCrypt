@@ -1,5 +1,8 @@
 ## Todo list
 
+### Sabloane de proiectare implementate:
+- Singleton (`GameApp`)
+
 ### High Priority
 - [x] Implement Marble class
 - [x] Implement Currency
@@ -16,7 +19,7 @@
 - [x] Give credit after all textures have been given
 - [x] Add rarity
 - [x] Add fusing 
-- [ ] Add burning
+- [x] Add burning
 
 <!-- Raritati posibile:
 * normal 54% 1-54

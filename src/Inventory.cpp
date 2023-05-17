@@ -160,3 +160,25 @@ bool Inventory::IsFusable(uint32_t index_first, uint32_t index_second) const
 
     return true;
 }
+
+void Inventory::BurnMarble(uint32_t index)
+{
+    long double value = GetBurnValue(index);
+    m_marbles.erase(m_marbles.begin() + index);
+    m_wallet.Add(value);
+}
+
+long double Inventory::GetBurnValue(uint32_t index) const
+{
+    long double value = m_generator.GetPrice() / 4;
+    switch(m_marbles[index].GetRarity())
+    {
+        case MarbleRarity::Normal: break;
+        case MarbleRarity::Rare: value *= 2; break;
+        case MarbleRarity::SuperRare: value *= 4; break;
+        case MarbleRarity::UltraRare: value *= 6; break;
+        case MarbleRarity::Legendary: value *= 10; break;
+        case MarbleRarity::Mythic: value *= 20; break;
+    }
+    return value;
+}

@@ -27,6 +27,8 @@ public:
     void AddCoins(long double ammount) noexcept;
     void FusionMarbles(uint32_t index_first, uint32_t index_second);
     bool IsFusable(uint32_t index_first, uint32_t index_second) const;
+    void BurnMarble(uint32_t index);
+    long double GetBurnValue(uint32_t index) const;
 
     //Cheats:
     void GenerateEachRarity();
