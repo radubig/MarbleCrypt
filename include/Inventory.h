@@ -33,6 +33,7 @@ public:
     void CollectAll();
     void AddCoins(long double ammount) noexcept;
     void FusionMarbles(uint32_t index_first, uint32_t index_second);
+    bool IsFusable(uint32_t index_first, uint32_t index_second) const;
 
 private:
     std::vector<sf::Texture> m_textures;

@@ -1,5 +1,6 @@
 #include "DrawableEntity.h"
 #include <iostream>
+#include <iterator>
 
 float DrawableEntity::s_entity_width = 200.0f;
 float DrawableEntity::s_entity_height = 300.0f;
@@ -7,6 +8,8 @@ float DrawableEntity::s_entity_image_size = 150.0f;
 float DrawableEntity::s_entity_offsetX = 20.0f;
 float DrawableEntity::s_entity_offsetY = 20.0f;
 unsigned int DrawableEntity::s_character_size = 20;
+
+void DrawableEntity::OnLeftClick() {} // By default, the function does nothing
 
 float DrawableEntity::GetOffsetY()
 {
@@ -47,8 +50,8 @@ void DrawableEntity::SetOutlineColor(sf::Color color)
     m_canvas.setOutlineColor(color);
 }
 
-MarbleEntity::MarbleEntity(Marble& marble, uint32_t index, const sf::Font& font)
-    :m_marble(marble), m_indexOfMarble(index)
+MarbleEntity::MarbleEntity(Inventory& inventory, uint32_t index, const sf::Font& font)
+    :m_inv(inventory), m_indexOfMarble(index)
 {
     // Set canvas color and size
     m_canvas.setSize({s_entity_width, s_entity_height});
@@ -61,14 +64,15 @@ MarbleEntity::MarbleEntity(Marble& marble, uint32_t index, const sf::Font& font)
     m_current_yield.setCharacterSize(s_character_size);
     m_current_yield.setFillColor(sf::Color::White);
     m_name = m_daily_yield = m_current_yield;
-    m_current_yield.setString("Current yield: " + std::to_string(m_marble.GetYield()));
-    m_daily_yield.setString("Daily yield: " + std::to_string(m_marble.GetDailyYield()));
-    m_name.setString(m_marble.GetName());
+    m_current_yield.setString("Current yield: " + std::to_string(m_inv[index].GetYield()));
+    m_daily_yield.setString("Daily yield: " + std::to_string(m_inv[index].GetDailyYield()));
+    m_name.setString(m_inv[index].GetName());
 }
 
 void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
 {
     float x, y;
+    Marble& m_marble = m_inv[m_indexOfMarble];
 
     // Render image
     x = (s_entity_width - s_entity_image_size) / 2.0f;
@@ -107,10 +111,10 @@ void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
     window.draw(m_daily_yield);
 }
 
-void MarbleEntity::OnLeftClick(Inventory& inv)
+void MarbleEntity::OnLeftClick()
 {
-    inv.AddCoins(inv[m_indexOfMarble].GetYield());
-    inv[m_indexOfMarble].CollectYield();
+    m_inv.AddCoins(m_inv[m_indexOfMarble].GetYield());
+    m_inv[m_indexOfMarble].CollectYield();
 }
 
 uint32_t MarbleEntity::GetMarbleIndex() const
@@ -118,7 +122,8 @@ uint32_t MarbleEntity::GetMarbleIndex() const
     return m_indexOfMarble;
 }
 
-ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, const Inventory& inv)
+ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, Inventory& inv)
+    :m_inv(inv)
 {
     // Set canvas color and size
     m_canvas.setSize({s_entity_width, s_entity_height});
@@ -159,8 +164,125 @@ void ShopEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
     window.draw(m_balance);
 }
 
-void ShopEntity::OnLeftClick(Inventory& inv)
+void ShopEntity::OnLeftClick()
 {
-    if(!inv.BuyMarble())
+    if(!m_inv.BuyMarble())
         std::cout << "Not enough funds!" << std::endl;
+}
+
+ActionEntity::ActionEntity(Inventory& inventory, GameApp::SelectedMarbles_t& selectedMarbles, const sf::Font& font)
+    :m_inv(inventory), m_selectedMarbles(selectedMarbles)
+{
+    // Set canvas color and size
+    m_canvas.setSize({s_entity_width, s_entity_height});
+    m_canvas.setFillColor(sf::Color::Transparent);
+    m_canvas.setOutlineColor(sf::Color::White);
+    m_canvas.setOutlineThickness(2.0f);
+
+    // Set text properties
+    m_action_name.setFont(font);
+    m_action_name.setCharacterSize(s_character_size);
+    m_action_name.setFillColor(sf::Color::White);
+    m_action_value = m_action_name;
+}
+
+void ActionEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
+{
+    float x, y;
+    DetermineAction();
+
+    switch(m_action_type)
+    {
+        case ActionType::Collect:
+        {
+            m_action_name.setString("Collect all");
+            m_action_name.setFillColor(sf::Color::Green);
+            x = (s_entity_width - m_action_name.getGlobalBounds().width) / 2.0f;
+            y = s_entity_height / 2.0f - m_action_name.getGlobalBounds().height;
+            m_action_name.setPosition(X + x, Y + y);
+            window.draw(m_action_name);
+        } break;
+
+        case ActionType::Burn:
+        {
+            m_action_name.setString("Burn marble for:");
+            m_action_name.setFillColor(sf::Color::Red);
+            x = (s_entity_width - m_action_name.getGlobalBounds().width) / 2.0f;
+            y = s_entity_height / 2.0f - m_action_name.getGlobalBounds().height;
+            m_action_name.setPosition(X + x, Y + y);
+            window.draw(m_action_name);
+
+            auto index = *m_selectedMarbles.begin();
+            auto value = m_inv[index].GetDailyYield();
+            m_action_value.setString(std::to_string(uint64_t(value)) + " $MTK");
+            x = (s_entity_width - m_action_value.getGlobalBounds().width) / 2.0f;
+            y += 35.0f;
+            m_action_value.setPosition(X + x, Y + y);
+            window.draw(m_action_value);
+        } break;
+
+        case ActionType::Fusion:
+        {
+            // Selected marbles are fusable
+            m_action_name.setString("Fuse Marbles!");
+            m_action_name.setFillColor(sf::Color::Cyan);
+            x = (s_entity_width - m_action_name.getGlobalBounds().width) / 2.0f;
+            y = s_entity_height / 2.0f - m_action_name.getGlobalBounds().height;
+            m_action_name.setPosition(X + x, Y + y);
+            window.draw(m_action_name);
+        } break;
+
+        default:
+        {
+            // Show option to de-select marbles
+            m_action_name.setString("De-select all");
+            x = (s_entity_width - m_action_name.getGlobalBounds().width) / 2.0f;
+            y = s_entity_height / 2.0f - m_action_name.getGlobalBounds().height;
+            m_action_name.setPosition(X + x, Y + y);
+            window.draw(m_action_name);
+        }
+    }
+}
+
+void ActionEntity::OnLeftClick()
+{
+    DetermineAction();
+    switch(m_action_type)
+    {
+        case ActionType::Collect:
+            m_inv.CollectAll();
+            break;
+
+        case ActionType::Burn:
+            // TODO: implement burning
+            break;
+
+        case ActionType::Fusion:
+        {
+            auto ind1 = *m_selectedMarbles.begin();
+            auto ind2 = *std::next(m_selectedMarbles.begin());
+            m_inv.FusionMarbles(ind1, ind2);
+            m_selectedMarbles.clear();
+        }
+            break;
+
+        case ActionType::Deselect:
+            m_selectedMarbles.clear();
+            break;
+
+        default: ;
+    }
+}
+
+void ActionEntity::DetermineAction()
+{
+    if(m_selectedMarbles.empty())
+        m_action_type = ActionType::Collect;
+    else if(m_selectedMarbles.size() == 1)
+        m_action_type = ActionType::Burn;
+    else if(m_selectedMarbles.size() == 2 &&
+            m_inv.IsFusable(*m_selectedMarbles.begin(), *(std::next(m_selectedMarbles.begin()))) )
+        m_action_type = ActionType::Fusion;
+    else
+        m_action_type = ActionType::Deselect;
 }

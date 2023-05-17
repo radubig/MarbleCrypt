@@ -16,14 +16,16 @@ You can obtain Marbles either by buying them with <b>$MTK</b> or by fusing two o
 ## Features implemented
 - Graphical interface
 - Ability to generate new basic marbles by buying them
-  - Click on the shop icon or press `B` to buy a new marble
+  - Click on the shop icon to buy a new marble
 - Ability to fuse two basic marbles into a new, better one
-  - Right-click on two marbles to select them, then press `F` to fuse them together!
+  - Right-click on two marbles to select them, then click the `Fuse marbles!` button
 - Ability to collect the current yield of the marbles
-  - You can press each marble to collect its yield, or press `C` to collect all yields
+  - You can press each marble to collect its individual yield
+  - You can also press the `Collect all` button to collect all yields
   - You can press `A` to add 100 coins to your wallet (for testing purposes)
 - Resizable window
 - Scrolling (work in progress)
+- *Coming soon: burning*
 
 ## References & Dependencies
 - [SFML](https://www.sfml-dev.org/)

@@ -151,3 +151,16 @@ void Inventory::FusionMarbles(uint32_t index_first, uint32_t index_second)
     m_marbles.erase(m_marbles.begin() + index_second);
     m_marbles.erase(m_marbles.begin() + index_first);
 }
+
+bool Inventory::IsFusable(uint32_t index_first, uint32_t index_second) const
+{
+    // Returns false if the indicies provided are out of bounds or if the selected marbles are not basic marbles
+    // Otherwise returns true
+
+    if(index_first >= m_marbles.size() || index_second >= m_marbles.size())
+        return false;
+    if(m_marbles[index_first].GetTexturePtr2() != nullptr ||
+       m_marbles[index_second].GetTexturePtr2() != nullptr)
+        return false;
+    return true;
+}

@@ -20,6 +20,8 @@ public:
     void Init();
     void Run();
 
+    typedef std::unordered_set<uint32_t> SelectedMarbles_t;
+
 private:
     const std::string m_title = "MarbleCrypt";
     const std::string fontFilePath = "data/OpenSans-Regular.ttf";
@@ -34,7 +36,7 @@ private:
 
     sf::Font m_font;
     sf::Texture m_shop_tx;
-    std::unordered_set<uint32_t> m_selected_marbles;
+    SelectedMarbles_t m_selected_marbles;
 };
 
 #endif //MARBLECRYPT_GAMEAPP_H

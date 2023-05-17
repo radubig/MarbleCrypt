@@ -64,10 +64,12 @@ void GameApp::Run()
         std::vector<std::shared_ptr<DrawableEntity>> renderItems;
         // insert shop into renderItems
         renderItems.push_back(std::make_shared<ShopEntity>(&m_shop_tx, m_font, m_inv));
+        // insert action into renderItems
+        renderItems.push_back(std::make_shared<ActionEntity>(m_inv, m_selected_marbles, m_font));
         // insert all marbles into renderItmes
         for(uint32_t i = 0; i < m_inv.GetMarbles().size(); i++)
         {
-            renderItems.push_back(std::make_shared<MarbleEntity>(m_inv[i], i, m_font));
+            renderItems.push_back(std::make_shared<MarbleEntity>(m_inv, i, m_font));
             if(m_selected_marbles.contains(i))
                 (*(renderItems.rbegin()))->SetOutlineColor(sf::Color::Red);
         }
@@ -103,7 +105,7 @@ void GameApp::Run()
                 {
                     for(auto& i : renderItems)
                         if(i->isHovered(pos.x, pos.y))
-                            i->OnLeftClick(m_inv);
+                            i->OnLeftClick();
                 }
                 // Right click events
                 else if(e.mouseButton.button == sf::Mouse::Right)
@@ -128,33 +130,14 @@ void GameApp::Run()
                 {
                     m_inv.AddCoins(100);
                 }
-                else if(e.key.code == sf::Keyboard::Key::B)
+                /*else if(e.key.code == sf::Keyboard::Key::B)
                 {
                     m_inv.BuyMarble();
                 }
                 else if(e.key.code == sf::Keyboard::Key::C)
                 {
                     m_inv.CollectAll();
-                }
-                else if(e.key.code == sf::Keyboard::Key::F)
-                {
-                    if(m_selected_marbles.size() == 2)
-                    {
-                        auto iter1 = m_selected_marbles.begin();
-                        auto iter2 = iter1;
-                        iter2++;
-                        if(m_inv[*iter1].GetTexturePtr2() != nullptr ||
-                           m_inv[*iter2].GetTexturePtr2() != nullptr)
-                                std::cout << "The marbles selected are not basic marbles!" << std::endl;
-                        else
-                        {
-                            m_inv.FusionMarbles(*iter1, *iter2);
-                            m_selected_marbles.clear();
-                        }
-                    }
-                    else
-                        std::cout << "Too many or too few marbles selected for fusioning!" << std::endl;
-                }
+                }*/
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {
