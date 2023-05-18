@@ -4,14 +4,14 @@
 #include <iostream>
 #include <memory>
 
-bool GameApp::s_instance = false;
+GameApp& GameApp::getInstance()
+{
+    static GameApp app;
+    return app;
+}
 
 GameApp::GameApp()
 {
-    if(s_instance)
-        throw std::runtime_error("Multiple instances of GameApp detected!");
-    s_instance = true;
-
     // Load m_font (Mandatory)
     if(!m_font.loadFromFile(fontFilePath))
         throw FontLoadException(fontFilePath);
@@ -30,7 +30,6 @@ GameApp::~GameApp()
 {
     if(m_window.isOpen())
         m_window.close();
-    s_instance = false;
 }
 
 void GameApp::SetResolution(unsigned int width, unsigned int height)

@@ -14,7 +14,7 @@ int main()
 
     try
     {
-        GameApp app;
+        auto& app = GameApp::getInstance();
         app.SetResolution(1340, 820);
         app.SetFramerateLimit(144);
         app.InitWindow();

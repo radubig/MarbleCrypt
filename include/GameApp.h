@@ -10,10 +10,11 @@
 class GameApp
 {
 public:
-    explicit GameApp();
     GameApp(const GameApp& other) = delete;
     GameApp(GameApp&& other) = delete;
     ~GameApp();
+
+    static GameApp& getInstance();
 
     void SetResolution(unsigned int width, unsigned int height);
     void SetFramerateLimit(unsigned int value);
@@ -23,11 +24,11 @@ public:
     typedef std::unordered_set<uint32_t> SelectedMarbles_t;
 
 private:
+    explicit GameApp();
     const std::string m_title = "MarbleCrypt";
     const std::string fontFilePath = "data/OpenSans-Regular.ttf";
     const std::string shopTextureFilePath = "data/shop.png";
 
-    static bool s_instance;
     sf::RenderWindow m_window;
     unsigned int m_width = 1280;
     unsigned int m_height = 720;
