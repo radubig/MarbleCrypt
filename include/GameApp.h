@@ -17,7 +17,7 @@ public:
 
     void SetResolution(unsigned int width, unsigned int height);
     void SetFramerateLimit(unsigned int value);
-    void Init();
+    void InitWindow();
     void Run();
 
     typedef std::unordered_set<uint32_t> SelectedMarbles_t;

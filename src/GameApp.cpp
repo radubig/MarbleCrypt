@@ -11,6 +11,19 @@ GameApp::GameApp()
     if(s_instance)
         throw std::runtime_error("Multiple instances of GameApp detected!");
     s_instance = true;
+
+    // Load m_font (Mandatory)
+    if(!m_font.loadFromFile(fontFilePath))
+        throw FontLoadException(fontFilePath);
+
+    // Load Shop Texture (Mandatory)
+    if(!m_shop_tx.loadFromFile(shopTextureFilePath))
+        throw TextureLoadException(shopTextureFilePath);
+
+    // Load inventory data
+    m_inv.LoadTextures("data/textures.txt");
+    m_inv.LoadMarbleData("data/marbles.txt");
+    m_inv.SetDefault();
 }
 
 GameApp::~GameApp()
@@ -31,24 +44,12 @@ void GameApp::SetFramerateLimit(unsigned int value)
     m_framerate_limit = value;
 }
 
-void GameApp::Init()
+void GameApp::InitWindow()
 {
     // create window
     m_window.create(sf::VideoMode({m_width, m_height}), m_title, sf::Style::Default);
     m_window.setVerticalSyncEnabled(true);
     m_window.setFramerateLimit(m_framerate_limit);
-
-    // Load m_font (Mandatory)
-    if(!m_font.loadFromFile(fontFilePath))
-        throw FontLoadException(fontFilePath);
-
-    // Load Shop Texture (Mandatory)
-    if(!m_shop_tx.loadFromFile(shopTextureFilePath))
-        throw TextureLoadException(shopTextureFilePath);
-
-    m_inv.LoadTextures("data/textures.txt");
-    m_inv.LoadMarbleData("data/marbles.txt");
-    m_inv.SetDefault();
 }
 
 void GameApp::Run()
@@ -58,8 +59,6 @@ void GameApp::Run()
     {
         // Render code here
         m_window.clear(sf::Color(80, 80, 80));
-
-        float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
 
         std::vector<std::shared_ptr<DrawableEntity>> renderItems;
         // insert shop into renderItems
@@ -74,6 +73,7 @@ void GameApp::Run()
                 (*(renderItems.rbegin()))->SetOutlineColor(sf::Color::Red);
         }
 
+        float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
         for(auto& item : renderItems)
             item->Draw(m_window, renderX, renderY);
 
@@ -134,14 +134,6 @@ void GameApp::Run()
                 {
                     m_inv.GenerateEachRarity();
                 }
-                /*else if(e.key.code == sf::Keyboard::Key::B)
-                {
-                    m_inv.BuyMarble();
-                }
-                else if(e.key.code == sf::Keyboard::Key::C)
-                {
-                    m_inv.CollectAll();
-                }*/
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {

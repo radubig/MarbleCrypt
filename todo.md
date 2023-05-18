@@ -31,7 +31,3 @@
 * legendary 1% 100
 * mythic 0% (fusion-only)
 -->
-
-### Before final release
-- [ ] Delete TODOs
-- [x] Update `README.md`

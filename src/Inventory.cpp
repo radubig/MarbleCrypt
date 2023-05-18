@@ -17,7 +17,6 @@ std::ostream& operator<<(std::ostream& os, const Inventory& inv)
 
 void Inventory::LoadTextures(const std::string& filePath)
 {
-    // TODO: Assign Texture ID properly in case of error at loading file
     std::fstream fin(filePath);
     if(!fin.is_open())
         throw ResourceLoadException(filePath);
@@ -27,10 +26,7 @@ void Inventory::LoadTextures(const std::string& filePath)
     {
         sf::Texture texture;
         if(!texture.loadFromFile(line))
-        {
-            std::cerr << "Image " << line << " could not be loaded!\n";
-            continue;
-        }
+            throw TextureLoadException(line);
         m_textures.push_back(std::move(texture));
     }
     fin.close();

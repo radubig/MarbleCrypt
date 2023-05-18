@@ -1,6 +1,5 @@
 #include "DataLoader.h"
 #include "Exceptions.h"
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <utility>
@@ -8,7 +7,6 @@
 
 void MarbleLoader::LoadMarbleData(const std::string& filePath, std::vector<sf::Texture>& textures)
 {
-    // TODO: Assign Texture ID properly in case of error at loading file
     std::fstream fin(filePath);
     if(!fin.is_open())
         throw ResourceLoadException(filePath);
@@ -21,12 +19,10 @@ void MarbleLoader::LoadMarbleData(const std::string& filePath, std::vector<sf::T
         std::string name;
         uint32_t texID;
         ss >> rarity >> name >> texID;
-        // Extra checking to ensure the texture exists in memory
+        // Ensure the texture exists in memory
         if(texID > textures.size() - 1)
-        {
-            std::cout << "[WARNING] Texture ID #" << texID << " is not loaded in memory, so marble " << name << " has been discarded!\n";
-            continue;
-        }
+            throw InvalidDataException("Marble " + name + " does not have the texture loaded into memory!");
+
         switch(rarity)
         {
             case 1: m_normal.emplace_back(name, textures[texID]); break;
@@ -34,7 +30,7 @@ void MarbleLoader::LoadMarbleData(const std::string& filePath, std::vector<sf::T
             case 3: m_super.emplace_back(name, textures[texID]); break;
             case 4: m_ultra.emplace_back(name, textures[texID]); break;
             case 5: m_legendary.emplace_back(name, textures[texID]); break;
-            default: std::cout << "[WARNING] Marble " << name << " has invalid rarity, so it has been discarded!\n";
+            default: throw InvalidDataException("Marble " + name + " has invalid rarity!");
         }
     }
     fin.close();

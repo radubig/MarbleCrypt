@@ -22,4 +22,10 @@ public:
     explicit TextureLoadException(const std::string& filePath);
 };
 
+class InvalidDataException : public std::runtime_error
+{
+public:
+    explicit InvalidDataException(const std::string& mesage);
+};
+
 #endif //MARBLECRYPT_EXCEPTIONS_H

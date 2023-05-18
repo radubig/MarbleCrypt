@@ -15,14 +15,18 @@ int main()
     try
     {
         GameApp app;
-        app.SetResolution(1280, 720);
+        app.SetResolution(1340, 820);
         app.SetFramerateLimit(144);
-        app.Init();
+        app.InitWindow();
         app.Run();
     }
     catch(const ResourceLoadException& err)
     {
         std::cerr << "[Resource Load Exception]: " << err.what() << "\n";
+    }
+    catch(const InvalidDataException& err)
+    {
+        std::cerr << "[Invalid Data Exception]: " << err.what() << "\n";
     }
     catch(const std::runtime_error& err)
     {

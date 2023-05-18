@@ -12,3 +12,6 @@ FontLoadException::FontLoadException(const std::string& filePath)
 
 TextureLoadException::TextureLoadException(const std::string& filePath)
     : ResourceLoadException(filePath, "Texture") {}
+
+InvalidDataException::InvalidDataException(const std::string& mesage)
+    : runtime_error(mesage) {}
