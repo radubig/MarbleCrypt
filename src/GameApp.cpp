@@ -93,7 +93,8 @@ void GameApp::Run()
             }
             else if(e.type == sf::Event::Resized)
             {
-                sf::FloatRect visibleArea(0, 0, float(e.size.width), float(e.size.height));
+                auto point = m_window.mapPixelToCoords({0, 0});
+                sf::FloatRect visibleArea(point.x, point.y, float(e.size.width), float(e.size.height));
                 m_window.setView(sf::View(visibleArea));
                 m_width = e.size.width;
                 m_height = e.size.height;
