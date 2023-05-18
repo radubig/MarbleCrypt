@@ -69,7 +69,7 @@ MarbleEntity::MarbleEntity(Inventory& inventory, uint32_t index, const sf::Font&
     m_name.setString(m_inv[index].GetName());
 }
 
-void MarbleEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
+void MarbleEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
 {
     float x, y;
     const Marble& m_marble = m_inv[m_indexOfMarble];
@@ -144,7 +144,7 @@ ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, Inventory& in
     m_balance.setString("Balance: " + std::to_string(uint64_t(inv.GetBalance())));
 }
 
-void ShopEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
+void ShopEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
 {
     float x, y;
 
@@ -186,7 +186,7 @@ ActionEntity::ActionEntity(Inventory& inventory, GameApp::SelectedMarbles_t& sel
     m_action_value = m_action_name;
 }
 
-void ActionEntity::DrawObject(sf::RenderWindow& window, float& X, float& Y)
+void ActionEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
 {
     float x, y;
     DetermineAction();

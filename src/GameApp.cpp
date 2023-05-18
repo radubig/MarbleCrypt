@@ -73,7 +73,7 @@ void GameApp::Run()
                 (*(renderItems.rbegin()))->SetOutlineColor(sf::Color::Red);
         }
 
-        float renderX = 0, renderY = DrawableEntity::GetOffsetY(); // will be refactored
+        float renderX = 0, renderY = DrawableEntity::GetOffsetY();
         for(auto& item : renderItems)
             item->Draw(m_window, renderX, renderY);
 

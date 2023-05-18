@@ -25,7 +25,7 @@ protected:
     sf::RectangleShape m_canvas;
 
 private:
-    virtual void DrawObject(sf::RenderWindow& window, float& X, float& Y) = 0;
+    virtual void DrawObject(sf::RenderWindow& window, float X, float Y) = 0;
     static void UpdateBounds(sf::RenderWindow& window, float& X, float& Y);
 };
 
@@ -45,7 +45,7 @@ private:
     sf::Text m_current_yield;
     sf::Text m_daily_yield;
 
-    void DrawObject(sf::RenderWindow& window, float& X, float& Y) override;
+    void DrawObject(sf::RenderWindow& window, float X, float Y) override;
 };
 
 
@@ -62,7 +62,7 @@ private:
     sf::Text m_balance;
     sf::Text m_cost;
 
-    void DrawObject(sf::RenderWindow& window, float& X, float& Y) override;
+    void DrawObject(sf::RenderWindow& window, float X, float Y) override;
 };
 
 
@@ -84,7 +84,7 @@ private:
     };
     ActionType m_action_type = ActionType::None;
 
-    void DrawObject(sf::RenderWindow& window, float& X, float& Y) override;
+    void DrawObject(sf::RenderWindow& window, float X, float Y) override;
     void DetermineAction();
 };
 
