@@ -52,6 +52,8 @@ int64_t Marble::GetYield() const
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     int64_t dur = std::chrono::duration_cast<std::chrono::seconds>(now - m_timepoint_last_yield).count();
     double total_yield = double(dur) * YieldPerSec();
+    if(total_yield > double(m_daily_yield))
+        return m_daily_yield;
     return int64_t(total_yield);
 }
 
