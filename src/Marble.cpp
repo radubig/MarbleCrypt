@@ -7,8 +7,7 @@ Marble::Marble(std::string name, int64_t daily_yield, sf::Texture* texture_1, sf
     m_texture(texture_1),
     m_texture_2(texture_2),
     m_rarity(rarity),
-    m_timepoint_gen(std::chrono::system_clock::now()),
-    m_timepoint_last_yield(m_timepoint_gen),
+    m_timepoint_last_yield(std::chrono::system_clock::now()),
     m_daily_yield(daily_yield)
 {}
 
@@ -18,8 +17,7 @@ Marble::Marble(MarbleLoader::MarbleData<T> data) :
     m_texture(data.texture),
     m_texture_2(nullptr),
     m_rarity(T),
-    m_timepoint_gen(std::chrono::system_clock::now()),
-    m_timepoint_last_yield(m_timepoint_gen),
+    m_timepoint_last_yield(std::chrono::system_clock::now()),
     m_daily_yield(static_cast<long long>(T))
 {}
 
@@ -32,12 +30,12 @@ template Marble::Marble(MarbleLoader::MarbleData<MarbleRarity::Mythic> data);
 
 std::ostream& operator<<(std::ostream& os, const Marble& marble)
 {
-    os << "Marble name: " << marble.m_name << "\n";
-    os << "Marble daily yield: " << marble.m_daily_yield << "\n";
-    std::time_t gen_time = std::chrono::system_clock::to_time_t(marble.m_timepoint_gen);
-    std::time_t last_yield = std::chrono::system_clock::to_time_t(marble.m_timepoint_last_yield);
-    os << "Marble generated on: " << std::ctime(&gen_time) << "\n";
-    os << "Last time collected yield on: " << std::ctime(&last_yield);
+    os << marble.m_name << "\n";        // Marble name
+    os << marble.m_daily_yield << "\n"; // Marble daily yield
+    os << marble.m_timepoint_last_yield.time_since_epoch().count(); // Last yield
+
+    //std::time_t last_yield = std::chrono::system_clock::to_time_t(marble.m_timepoint_last_yield);
+    //os << "Last time collected yield on: " << std::ctime(&last_yield);
     return os;
 }
 

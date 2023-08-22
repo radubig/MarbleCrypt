@@ -1,6 +1,7 @@
 #include "Generator.h"
 #include <cmath>
 #include <random>
+#include <iomanip>
 
 const long double Generator::s_initial_cost = 1.0;
 
@@ -33,4 +34,17 @@ uint32_t Generator::operator()()
 void Generator::SetRange(uint32_t range_min, uint32_t range_max)
 {
     m_rng_distr.param(std::uniform_int_distribution<uint32_t>::param_type{range_min, range_max});
+}
+
+std::ostream& operator<<(std::ostream& os, const Generator& gen)
+{
+    unsigned char buf[sizeof (long double)];
+    long double value = gen.m_cost;
+    std::copy(reinterpret_cast<const unsigned char *> (&value),
+              reinterpret_cast<const unsigned char *> (&value) + sizeof(long double),
+              buf);
+    for(unsigned int i : buf)
+        os << std::hex << std::uppercase << std::setw(2) << std::setfill('0') << i;
+    os << std::dec;
+    return os;
 }

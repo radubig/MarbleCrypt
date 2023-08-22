@@ -15,6 +15,7 @@ public:
 
     explicit Generator();
     ~Generator() = default;
+    friend std::ostream& operator<< (std::ostream& os, const Generator& gen);
 
     void SetRange(uint32_t range_min, uint32_t range_max);
     void ResetPrice() noexcept;

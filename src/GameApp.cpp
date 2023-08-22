@@ -134,6 +134,10 @@ void GameApp::Run()
                 {
                     m_inv.GenerateEachRarity();
                 }
+                else if(e.key.code == sf::Keyboard::Key::S)
+                {
+                    m_inv.SaveInventory();
+                }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {

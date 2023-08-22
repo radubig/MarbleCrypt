@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+const std::string Inventory::m_savefile = "save.txt";
+
 std::ostream& operator<<(std::ostream& os, const Inventory& inv)
 {
     os << "Cryptomonede detinute: " << inv.m_wallet << "\n";
@@ -177,4 +179,30 @@ long double Inventory::GetBurnValue(uint32_t index) const
         case MarbleRarity::Mythic: value *= 20; break;
     }
     return value;
+}
+
+void Inventory::SaveInventory(const std::string& savefile) const
+{
+    std::ofstream fout(savefile);
+    if(!fout.is_open())
+        throw ResourceLoadException(savefile);
+
+    // Save current wallet information
+    fout << m_wallet << "\n";
+    fout << m_generator << "\n";
+
+    // Save inventory
+    fout << m_marbles.size() << "\n";
+    for(const auto& marble : m_marbles)
+    {
+        fout << marble << "\n\n";
+    }
+
+    // Close the file
+    fout.close();
+}
+
+void Inventory::LoadInventory(const std::string& savefile)
+{
+
 }

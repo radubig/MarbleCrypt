@@ -30,10 +30,16 @@ public:
     void BurnMarble(uint32_t index);
     long double GetBurnValue(uint32_t index) const;
 
+    //Loading and saving progress
+    void SaveInventory(const std::string& savefile = m_savefile) const;
+    void LoadInventory(const std::string& savefile = m_savefile);
+
     //Cheats:
     void GenerateEachRarity();
 
 private:
+    static const std::string m_savefile;
+
     std::vector<sf::Texture> m_textures;
     CryptoCoin m_wallet;
     std::vector<Marble> m_marbles;

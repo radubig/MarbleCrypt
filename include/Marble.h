@@ -35,7 +35,6 @@ private:
     sf::Texture* m_texture;
     sf::Texture* m_texture_2;
     MarbleRarity m_rarity;
-    TP m_timepoint_gen;
     TP m_timepoint_last_yield;
     int64_t m_daily_yield;
 
