@@ -5,8 +5,8 @@
 
 const long double Generator::s_initial_cost = 1.0;
 
-Generator::Generator()
-    :m_cost(Generator::s_initial_cost),
+Generator::Generator(long double cost)
+    :m_cost(cost),
     m_rng_engine(std::random_device()())
 {}
 
@@ -47,4 +47,9 @@ std::ostream& operator<<(std::ostream& os, const Generator& gen)
         os << std::hex << std::uppercase << std::setw(2) << std::setfill('0') << i;
     os << std::dec;
     return os;
+}
+
+void Generator::ResetPrice(long double cost) noexcept
+{
+    m_cost = cost;
 }

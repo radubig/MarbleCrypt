@@ -195,7 +195,9 @@ void Inventory::SaveInventory(const std::string& savefile) const
     fout << m_marbles.size() << "\n";
     for(const auto& marble : m_marbles)
     {
-        fout << marble << "\n\n";
+        fout << marble << "\n";
+        fout << FindTexturePtrSlot(marble.GetTexturePtr()) << "\n";
+        fout << FindTexturePtrSlot(marble.GetTexturePtr2()) << "\n";
     }
 
     // Close the file
@@ -204,5 +206,82 @@ void Inventory::SaveInventory(const std::string& savefile) const
 
 void Inventory::LoadInventory(const std::string& savefile)
 {
+    std::ifstream fin(savefile);
+    if(!fin.is_open())
+        throw ResourceLoadException(savefile);
 
+    std::string buf;
+    long double real_value;
+
+    // Read wallet balance
+    fin >> buf;
+    real_value = ConvertHexToReal(buf);
+    m_wallet = CryptoCoin(real_value);
+
+    // Read generator price
+    fin >> buf;
+    real_value = ConvertHexToReal(buf);
+    m_generator.ResetPrice(real_value);
+
+    // Read marbles
+    m_marbles.clear();
+    size_t total_marble_count;
+    fin >> total_marble_count;
+    for(size_t i = 0; i < total_marble_count; i++)
+    {
+        std::string nume;
+        int64_t daily_yield, rarity;
+        size_t timestamp;
+        int tex1, tex2;
+
+        fin >> nume;
+        fin >> daily_yield;
+        fin >> timestamp;
+        fin >> rarity;
+        fin >> tex1;
+        fin >> tex2;
+
+        sf::Texture *t1, *t2;
+        t1 = tex1 == -1 ? nullptr : &m_textures[tex1];
+        t2 = tex2 == -1 ? nullptr : &m_textures[tex2];
+
+        m_marbles.emplace_back(nume, daily_yield, t1, t2, static_cast<MarbleRarity>(rarity), timestamp);
+    }
+
+    fin.close();
+}
+
+int Inventory::FindTexturePtrSlot(sf::Texture* texture) const
+{
+    if(texture == nullptr)
+        return -1;
+
+    for(unsigned i = 0; i < m_textures.size(); i++)
+        if(&m_textures[i] == texture)
+            return static_cast<int>(i);
+
+    throw std::runtime_error("Invalid texture pointer detected!");
+}
+
+long double Inventory::ConvertHexToReal(const std::string& hexvalue)
+{
+    // Expecting 32-character hex string
+    if(hexvalue.size() != sizeof(long double) * 2)
+        throw std::runtime_error("Error converting hex value to long double!");
+
+    unsigned char buf[sizeof(long double)];
+    long double result;
+
+    for(unsigned i = 0; i < sizeof(long double); i++)
+    {
+        std::string s;
+        s += hexvalue[2*i];
+        s += hexvalue[2*i+1];
+        buf[i] = std::stoi(s, nullptr, 16);
+    }
+    std::copy(buf,
+              buf + sizeof(long double),
+              reinterpret_cast<unsigned char *>(&result));
+
+    return result;
 }

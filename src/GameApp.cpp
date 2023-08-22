@@ -138,6 +138,10 @@ void GameApp::Run()
                 {
                     m_inv.SaveInventory();
                 }
+                else if(e.key.code == sf::Keyboard::Key::L)
+                {
+                    m_inv.LoadInventory();
+                }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {

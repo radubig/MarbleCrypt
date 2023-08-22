@@ -29,6 +29,7 @@ public:
     bool IsFusable(uint32_t index_first, uint32_t index_second) const;
     void BurnMarble(uint32_t index);
     long double GetBurnValue(uint32_t index) const;
+    int FindTexturePtrSlot(sf::Texture* texture) const;
 
     //Loading and saving progress
     void SaveInventory(const std::string& savefile = m_savefile) const;
@@ -38,6 +39,8 @@ public:
     void GenerateEachRarity();
 
 private:
+    static long double ConvertHexToReal(const std::string& hexvalue);
+
     static const std::string m_savefile;
 
     std::vector<sf::Texture> m_textures;

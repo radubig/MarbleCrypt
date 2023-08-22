@@ -14,6 +14,7 @@ class Marble
 
 public:
     Marble(std::string, int64_t, sf::Texture*, sf::Texture*, MarbleRarity);
+    Marble(std::string, int64_t, sf::Texture*, sf::Texture*, MarbleRarity, size_t);
     template<MarbleRarity T> explicit Marble(MarbleLoader::MarbleData<T> data);
     Marble(const Marble&) = delete;
     Marble& operator= (const Marble&) = delete;

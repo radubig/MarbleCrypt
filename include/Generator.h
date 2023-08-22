@@ -13,12 +13,13 @@ class Generator
 public:
     static const long double s_initial_cost;
 
-    explicit Generator();
+    explicit Generator(long double cost = s_initial_cost);
     ~Generator() = default;
     friend std::ostream& operator<< (std::ostream& os, const Generator& gen);
 
     void SetRange(uint32_t range_min, uint32_t range_max);
     void ResetPrice() noexcept;
+    void ResetPrice(long double cost) noexcept;
     long double GetPrice() const;
     uint32_t operator()();
 
