@@ -10,7 +10,7 @@
 
 class Marble
 {
-    typedef std::chrono::time_point<std::chrono::system_clock> TP;
+    typedef std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> TP;
 
 public:
     Marble(std::string, int64_t, sf::Texture*, sf::Texture*, MarbleRarity);
