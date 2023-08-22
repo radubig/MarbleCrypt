@@ -20,7 +20,7 @@ public:
     Marble& operator= (const Marble&) = delete;
     Marble(Marble&&) = default;
     Marble& operator= (Marble&&) = default;
-    ~Marble();
+    ~Marble() = default;
     friend std::ostream& operator<< (std::ostream&, const Marble&);
 
     sf::Texture* GetTexturePtr() const;

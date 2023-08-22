@@ -24,6 +24,7 @@ GameApp::GameApp()
     m_inv.LoadTextures("data/textures.txt");
     m_inv.LoadMarbleData("data/marbles.txt");
     m_inv.SetDefault();
+    m_inv.LoadInventory();
 }
 
 GameApp::~GameApp()
@@ -138,10 +139,6 @@ void GameApp::Run()
                 {
                     m_inv.SaveInventory();
                 }
-                else if(e.key.code == sf::Keyboard::Key::L)
-                {
-                    m_inv.LoadInventory();
-                }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
             {
@@ -156,4 +153,7 @@ void GameApp::Run()
             }
         }
     }
+
+    // Before app closing events:
+    m_inv.SaveInventory();
 }

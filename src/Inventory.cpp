@@ -202,13 +202,14 @@ void Inventory::SaveInventory(const std::string& savefile) const
 
     // Close the file
     fout.close();
+    std::cout << "Game saved." << std::endl;
 }
 
 void Inventory::LoadInventory(const std::string& savefile)
 {
     std::ifstream fin(savefile);
     if(!fin.is_open())
-        throw ResourceLoadException(savefile);
+        return;
 
     std::string buf;
     long double real_value;
@@ -249,9 +250,10 @@ void Inventory::LoadInventory(const std::string& savefile)
     }
 
     fin.close();
+    std::cout << "Inventory loaded." << std::endl;
 }
 
-int Inventory::FindTexturePtrSlot(sf::Texture* texture) const
+int Inventory::FindTexturePtrSlot(sf::Texture* const texture) const
 {
     if(texture == nullptr)
         return -1;

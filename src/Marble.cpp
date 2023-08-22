@@ -60,12 +60,6 @@ constexpr double Marble::YieldPerSec() const
     return double(m_daily_yield) / (24 * 60 * 60);
 }
 
-Marble::~Marble()
-{
-    if(!m_name.empty())
-        std::cout << "Marble " << m_name << " got yeeted from memory!\n";
-}
-
 sf::Texture* Marble::GetTexturePtr() const
 {
     return m_texture;
