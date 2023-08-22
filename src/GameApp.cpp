@@ -23,7 +23,6 @@ GameApp::GameApp()
     // Load inventory data
     m_inv.LoadTextures("data/textures.txt");
     m_inv.LoadMarbleData("data/marbles.txt");
-    m_inv.SetDefault();
     m_inv.LoadInventory();
 }
 
@@ -129,7 +128,9 @@ void GameApp::Run()
             {
                 if(e.key.code == sf::Keyboard::Key::A)
                 {
-                    m_inv.AddCoins(100);
+                    long double freeMoney = 15 * m_inv.GetNewMarblePrice();
+                    m_inv.AddCoins(freeMoney);
+                    std::cout << "Gained " << freeMoney << " free $MTK." << std::endl;
                 }
                 else if(e.key.code == sf::Keyboard::Key::G)
                 {
@@ -137,6 +138,12 @@ void GameApp::Run()
                 }
                 else if(e.key.code == sf::Keyboard::Key::S)
                 {
+                    m_inv.SaveInventory();
+                }
+                else if(e.key.code == sf::Keyboard::Key::Delete)
+                {
+                    // Delete all progress and force save
+                    m_inv.SetDefault();
                     m_inv.SaveInventory();
                 }
             }

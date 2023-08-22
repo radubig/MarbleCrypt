@@ -8,7 +8,7 @@ class CryptoCoin
 public:
     static const long double s_initial_ammount;
 
-    explicit CryptoCoin(long double balance = 0.0);
+    explicit CryptoCoin(long double balance = s_initial_ammount);
     CryptoCoin(const CryptoCoin& other);
     CryptoCoin& operator= (const CryptoCoin& other);
     ~CryptoCoin();

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-const std::string Inventory::m_savefile = "save.txt";
+const std::string Inventory::m_savefile = "save.dat";
 
 std::ostream& operator<<(std::ostream& os, const Inventory& inv)
 {
@@ -45,6 +45,7 @@ void Inventory::SetDefault()
     m_wallet = CryptoCoin(CryptoCoin::s_initial_ammount);
     m_marbles.clear();
     m_generator.ResetPrice();
+    std::cout << "Inventory reset." << std::endl;
 }
 
 long double Inventory::GetBalance() const
@@ -78,16 +79,20 @@ void Inventory::GenerateEachRarity()
     m_marbles.emplace_back(m_marble_loader.GetSuperRareMarble());
     m_marbles.emplace_back(m_marble_loader.GetUltraRareMarble());
     m_marbles.emplace_back(m_marble_loader.GetLegendaryMarble());
+    std::cout << "Free marbles everybody!" << std::endl;
 }
 
 void Inventory::CollectAll()
 {
+    long double totalSum = 0;
     for(Marble& marble : m_marbles)
     {
         long double ammount = marble.GetYield();
+        totalSum += ammount;
         m_wallet.Add(ammount);
         marble.CollectYield();
     }
+    std::cout << "Collected " << totalSum << " $MTK." << std::endl;
 }
 
 Marble& Inventory::operator[](uint32_t index)
@@ -262,14 +267,14 @@ int Inventory::FindTexturePtrSlot(sf::Texture* const texture) const
         if(&m_textures[i] == texture)
             return static_cast<int>(i);
 
-    throw std::runtime_error("Invalid texture pointer detected!");
+    throw InvalidDataException("Invalid texture pointer detected!");
 }
 
 long double Inventory::ConvertHexToReal(const std::string& hexvalue)
 {
     // Expecting 32-character hex string
     if(hexvalue.size() != sizeof(long double) * 2)
-        throw std::runtime_error("Error converting hex value to long double!");
+        throw InvalidDataException("Error converting hex value to long double!");
 
     unsigned char buf[sizeof(long double)];
     long double result;

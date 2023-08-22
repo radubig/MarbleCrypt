@@ -1,5 +1,6 @@
 #include "DrawableEntity.h"
 #include <iostream>
+#include <sstream>
 #include <iterator>
 
 float DrawableEntity::s_entity_width = 200.0f;
@@ -7,7 +8,7 @@ float DrawableEntity::s_entity_height = 300.0f;
 float DrawableEntity::s_entity_image_size = 150.0f;
 float DrawableEntity::s_entity_offsetX = 20.0f;
 float DrawableEntity::s_entity_offsetY = 20.0f;
-unsigned int DrawableEntity::s_character_size = 20;
+unsigned int DrawableEntity::s_character_size = 19;
 
 void DrawableEntity::OnLeftClick() {} // By default, the function does nothing
 
@@ -140,8 +141,24 @@ ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, Inventory& in
     m_cost.setCharacterSize(s_character_size);
     m_cost.setFillColor(sf::Color::White);
     m_balance = m_cost;
-    m_cost.setString("Cost: " + std::to_string(uint64_t(inv.GetNewMarblePrice())));
-    m_balance.setString("Balance: " + std::to_string(uint64_t(inv.GetBalance())));
+    long double newMarblePrice = inv.GetNewMarblePrice();
+    long double balance = inv.GetBalance();
+    if(newMarblePrice < 1e9)
+        m_cost.setString("Cost: " + std::to_string(uint64_t(newMarblePrice)));
+    else
+    {
+        std::ostringstream ss;
+        ss << newMarblePrice;
+        m_cost.setString("Cost: " + ss.str());
+    }
+    if(balance < 1e9)
+        m_balance.setString("Balance: " + std::to_string(uint64_t(balance)));
+    else
+    {
+        std::ostringstream ss;
+        ss << balance;
+        m_balance.setString("Balance: " + ss.str());
+    }
 }
 
 void ShopEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
@@ -214,7 +231,14 @@ void ActionEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
 
             auto index = *m_selectedMarbles.begin();
             auto value = m_inv.GetBurnValue(index);
-            m_action_value.setString(std::to_string(uint64_t(value)) + " $MTK");
+            if(value < 1e9)
+                m_action_value.setString(std::to_string(uint64_t(value)) + " $MTK");
+            else
+            {
+                std::ostringstream ss;
+                ss << value;
+                m_action_value.setString(ss.str() + " $MTK");
+            }
             x = (s_entity_width - m_action_value.getGlobalBounds().width) / 2.0f;
             y += 35.0f;
             m_action_value.setPosition(X + x, Y + y);
