@@ -20,6 +20,7 @@ public:
     void SetFramerateLimit(unsigned int value);
     void InitWindow();
     void Run();
+    void EnableCheats();
 
     typedef std::unordered_set<uint32_t> SelectedMarbles_t;
 
@@ -29,6 +30,7 @@ private:
     const std::string fontFilePath = "data/OpenSans-Regular.ttf";
     const std::string shopTextureFilePath = "data/shop.png";
 
+    bool m_cheats_enabled = false;
     sf::RenderWindow m_window;
     unsigned int m_width = 1280;
     unsigned int m_height = 720;

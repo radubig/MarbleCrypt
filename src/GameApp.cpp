@@ -65,7 +65,8 @@ void GameApp::Run()
         // insert shop into renderItems
         renderItems.push_back(std::make_shared<ShopEntity>(&m_shop_tx, m_font, m_inv));
         // insert action into renderItems
-        renderItems.push_back(std::make_shared<ActionEntity>(m_inv, m_selected_marbles, m_font));
+        auto actionEntityPtr = std::make_shared<ActionEntity>(m_inv, m_selected_marbles, m_font);
+        renderItems.push_back(actionEntityPtr);
         // insert all marbles into renderItmes
         for(uint32_t i = 0; i < m_inv.GetMarblesSize(); i++)
         {
@@ -130,17 +131,35 @@ void GameApp::Run()
             {
                 if(e.key.code == sf::Keyboard::Key::A)
                 {
-                    long double freeMoney = 15 * m_inv.GetNewMarblePrice();
-                    m_inv.AddCoins(freeMoney);
-                    std::cout << "Gained " << freeMoney << " free $MTK." << std::endl;
+                    if(m_cheats_enabled)
+                    {
+                        long double freeMoney = 15 * m_inv.GetNewMarblePrice();
+                        m_inv.AddCoins(freeMoney);
+                        std::cout << "Gained " << freeMoney << " free $MTK." << std::endl;
+                    }
                 }
                 else if(e.key.code == sf::Keyboard::Key::G)
                 {
-                    m_inv.GenerateEachRarity();
+                    if(m_cheats_enabled)
+                    {
+                        m_inv.GenerateEachRarity();
+                    }
                 }
                 else if(e.key.code == sf::Keyboard::Key::S)
                 {
                     m_inv.SaveInventory();
+                }
+                else if(e.key.code == sf::Keyboard::Key::B)
+                {
+                    if(!m_inv.BuyMarble())
+                        std::cout << "Not enough funds!" << std::endl;
+                }
+                else if(e.key.code == sf::Keyboard::Key::BackSpace)
+                {
+                    if(m_selected_marbles.size() == 1)
+                    {
+                        actionEntityPtr->OnLeftClick();
+                    }
                 }
                 else if(e.key.code == sf::Keyboard::Key::Delete)
                 {
@@ -169,4 +188,9 @@ void GameApp::Run()
 
     // Before app closing events:
     m_inv.SaveInventory();
+}
+
+void GameApp::EnableCheats()
+{
+    m_cheats_enabled = true;
 }
