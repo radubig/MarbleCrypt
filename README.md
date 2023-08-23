@@ -16,12 +16,16 @@ Are you getting too many duplicates? No problem! At any time, you may choose to 
 
 However, be careful of demand! The price for new marbles increases exponentialy with demand, so the more you buy, the more expensive they get!
 
-Try to collect all the 16 base marbles, along with every combination of two of those!
+Try to collect all the 136 marbles!
 
 ## Features implemented
 - Graphical interface
+- **[NEW]** Save system
+  - The game automatically saves your progress when you close the app
+  - You can also manually save by pressing `S`
+  - Marbles can generate up to a day's worth of **$MTK** while away, so open the game once a day to collect your tokens! 
 - Generate new basic marbles by buying them with **$MTK**
-  - Click on the shop icon to buy a new marble
+  - Click on the shop icon to buy a new marble, or press `B`
 - Fuse two basic marbles into a new, better one
   - Right-click on two marbles to select them, then click the `Fuse marbles!` button
 - Collect the current yield of the marbles
@@ -30,12 +34,15 @@ Try to collect all the 16 base marbles, along with every combination of two of t
 - Burning
   - If you feel that you no longer need a particular marble, you can burn it and get back some tokens for buying other marbles
   - The amount received depends on the current price of a marble and the rarity of the marble burned
+  - You can also trigger the burning of a selected marble by pressing `Backspace`
 - Resizable window
 - Scrolling
 
-##### Cheats: (for testing purposes)
-- You can press `A` to add 100 $MTK to your wallet
-- You can press `G` to generate one marble of every rarity
+##### Cheats:
+- `A` : Add some money to your wallet
+- `G` : Generate one marble of each rarity
+
+<small> To enable cheats, run <code>./MarbleCrypt -cheats</code> .</small>
 
 ## References & Dependencies
 - [SFML](https://www.sfml-dev.org/)
