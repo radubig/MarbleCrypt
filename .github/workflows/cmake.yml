@@ -11,7 +11,7 @@ on:
       build_type:
         description: Build type
         required: false
-        default: 'Debug' # NOTE: may replace with release
+        default: 'Release'
         type: choice
         options:
           - Debug
@@ -20,7 +20,7 @@ on:
           - MinSizeRel
 
 env:
-  BUILD_TYPE: ${{ inputs.build_type || 'Debug' }}
+  BUILD_TYPE: ${{ inputs.build_type || 'Release' }}
   # NOTE: update executable name if it is changed in CMakeLists.txt
   EXECUTABLE_NAME: "MarbleCrypt"
   INPUT_FILENAME: "tastatura.txt"
