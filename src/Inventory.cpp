@@ -2,6 +2,7 @@
 #include "Exceptions.h"
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
 
 const std::string Inventory::m_savefile = "save.dat";
 
@@ -291,4 +292,29 @@ long double Inventory::ConvertHexToReal(const std::string& hexvalue)
               reinterpret_cast<unsigned char *>(&result));
 
     return result;
+}
+
+unsigned Inventory::GetTotalDistinctMarbles() const
+{
+    return m_marble_loader.GetTotalDistinctMarbles();
+}
+
+unsigned Inventory::GetCurrentDistinctMarbles() const
+{
+    std::unordered_set<std::string> s;
+    for(const auto& marble : m_marbles)
+    {
+        int tex1 = FindTexturePtrSlot(marble.GetTexturePtr());
+        int tex2 = FindTexturePtrSlot(marble.GetTexturePtr2());
+        if(tex1 == -1)
+            continue;
+        if(tex2 == -1)
+            s.insert(std::to_string(tex1));
+        else
+        {
+            if(tex1 > tex2) std::swap(tex1, tex2);
+            s.insert(std::to_string(tex1) + "_" + std::to_string(tex2));
+        }
+    }
+    return s.size();
 }

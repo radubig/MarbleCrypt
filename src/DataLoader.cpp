@@ -72,3 +72,15 @@ MarbleLoader::MarbleData<MarbleRarity::Legendary> MarbleLoader::GetLegendaryMarb
     gen.SetRange(0, m_legendary.size()-1);
     return m_legendary[gen()];
 }
+
+unsigned MarbleLoader::GetTotalDistinctMarbles() const
+{
+    unsigned total = 0;
+    total += m_normal.size();
+    total += m_rare.size();
+    total += m_super.size();
+    total += m_ultra.size();
+    total += m_legendary.size();
+    total += total * (total - 1) / 2;
+    return total;
+}

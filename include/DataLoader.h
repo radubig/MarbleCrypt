@@ -20,6 +20,7 @@ public:
         sf::Texture* texture;
     };
 
+    unsigned GetTotalDistinctMarbles() const;
     void LoadMarbleData(const std::string& filePath, std::vector<sf::Texture>& textures);
     MarbleData<MarbleRarity::Normal> GetNormalMarble() const;
     MarbleData<MarbleRarity::Rare> GetRareMarble() const;

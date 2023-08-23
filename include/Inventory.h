@@ -30,6 +30,8 @@ public:
     void BurnMarble(uint32_t index);
     long double GetBurnValue(uint32_t index) const;
     int FindTexturePtrSlot(sf::Texture* texture) const;
+    unsigned GetTotalDistinctMarbles() const;
+    unsigned GetCurrentDistinctMarbles() const;
 
     //Loading and saving progress
     void SaveInventory(const std::string& savefile = m_savefile) const;

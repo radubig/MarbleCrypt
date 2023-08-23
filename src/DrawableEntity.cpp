@@ -140,7 +140,7 @@ ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, Inventory& in
     m_cost.setFont(font);
     m_cost.setCharacterSize(s_character_size);
     m_cost.setFillColor(sf::Color::White);
-    m_balance = m_cost;
+    m_owned_marbles = m_balance = m_cost;
     long double newMarblePrice = inv.GetNewMarblePrice();
     long double balance = inv.GetBalance();
     if(newMarblePrice < 1e9)
@@ -159,6 +159,8 @@ ShopEntity::ShopEntity(sf::Texture* texture, const sf::Font& font, Inventory& in
         ss << balance;
         m_balance.setString("Balance: " + ss.str());
     }
+    m_owned_marbles.setString("Collected: " + std::to_string(m_inv.GetCurrentDistinctMarbles()) +
+                              " / " + std::to_string(m_inv.GetTotalDistinctMarbles()));
 }
 
 void ShopEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
@@ -179,6 +181,9 @@ void ShopEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
     y += 35.0f;
     m_balance.setPosition(X + x, Y + y);
     window.draw(m_balance);
+    y += 35.0f;
+    m_owned_marbles.setPosition(X + x, Y + y);
+    window.draw(m_owned_marbles);
 }
 
 void ShopEntity::OnLeftClick()

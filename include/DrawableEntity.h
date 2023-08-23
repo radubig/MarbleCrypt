@@ -61,6 +61,7 @@ private:
     sf::RectangleShape m_image;
     sf::Text m_balance;
     sf::Text m_cost;
+    sf::Text m_owned_marbles;
 
     void DrawObject(sf::RenderWindow& window, float X, float Y) override;
 };
