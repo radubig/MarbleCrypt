@@ -68,12 +68,40 @@ MarbleEntity::MarbleEntity(Inventory& inventory, uint32_t index, const sf::Font&
     m_current_yield.setString("Current yield: " + std::to_string(m_inv[index].GetYield()));
     m_daily_yield.setString("Daily yield: " + std::to_string(m_inv[index].GetDailyYield()));
     m_name.setString(m_inv[index].GetName());
+    m_name.setCharacterSize(s_character_size + 2);
 }
 
 void MarbleEntity::DrawObject(sf::RenderWindow& window, float X, float Y)
 {
     float x, y;
     const Marble& m_marble = m_inv[m_indexOfMarble];
+
+    // Rarity Color
+    switch(m_marble.GetRarity())
+    {
+        case MarbleRarity::Normal: break;
+
+        case MarbleRarity::Rare:
+            m_name.setFillColor(sf::Color(52, 211, 153));
+            break;
+
+        case MarbleRarity::SuperRare:
+            m_name.setFillColor(sf::Color(207, 151, 0));
+            break;
+
+        case MarbleRarity::UltraRare:
+            m_name.setFillColor(sf::Color(244, 63, 94));
+            break;
+
+        case MarbleRarity::Legendary:
+            m_name.setFillColor(sf::Color(139, 92, 246));
+            break;
+
+        case MarbleRarity::Mythic:
+            m_name.setFillColor(sf::Color(37, 99, 235));
+            break;
+    }
+    m_name.setStyle(sf::Text::Style::Bold);
 
     // Render image
     x = (s_entity_width - s_entity_image_size) / 2.0f;
