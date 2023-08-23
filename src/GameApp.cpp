@@ -53,10 +53,12 @@ void GameApp::InitWindow()
 
 void GameApp::Run()
 {
+    sf::Clock fpsClock;
     // Main rendering loop
     while(m_window.isOpen())
     {
         // Render code here
+        fpsClock.restart();
         m_window.clear(sf::Color(80, 80, 80));
 
         std::vector<std::shared_ptr<DrawableEntity>> renderItems;
@@ -145,6 +147,10 @@ void GameApp::Run()
                     // Delete all progress and force save
                     m_inv.SetDefault();
                     m_inv.SaveInventory();
+                }
+                else if(e.key.code == sf::Keyboard::Key::F)
+                {
+                    std::cout << "FPS: " << 1.0f / fpsClock.getElapsedTime().asSeconds() << std::endl;
                 }
             }
             else if(e.type == sf::Event::MouseWheelScrolled)
